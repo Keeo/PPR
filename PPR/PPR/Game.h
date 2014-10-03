@@ -1,17 +1,16 @@
 #pragma once
 
 #include "Node.h"
+#include "Graph.h"
 
 class Game
 {
-	Node* nodes_;
-	int cnodes_;
+	Graph Graph_;
 
 public:
 	Game();
 	~Game();
 
-	void print();
-	void load(char* filepath);
+	Graph& getGraph();
 };
 

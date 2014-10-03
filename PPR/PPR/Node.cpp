@@ -7,14 +7,13 @@ Node::Node()
 }
 
 
-Node::Node(int node_number, int cfriends) :
-node_number_(node_number),
-friends_(cfriends)
+Node::Node(int node_number, int cfriends)
 {
+	init(node_number, cfriends);
 }
 
 
-void Node::init(int node_number, int cfriends)
+inline void Node::init(int node_number, int cfriends)
 {
 	node_number_ = node_number;
 	if (cfriends != 0){
@@ -46,12 +45,6 @@ void Node::removeFriend(Node* node)
 }
 
 
-void Node::removeFriend(int pos)
-{
-	friends_[pos] = 0;
-}
-
-
 Node* Node::hasFriend(int node_number)
 {
 	for (auto &i : friends_) {
@@ -66,5 +59,21 @@ Node* Node::hasFriend(int node_number)
 int Node::getNodeNumber() const
 {
 	return node_number_;
+}
+
+
+void Node::removeMyselfFromFriends()
+{
+	for (auto &i : friends_) {
+		i->removeFriend(this);
+	}
+}
+
+
+void Node::addMyselfToFriends()
+{
+	for (auto &i : friends_) {
+		i->addFriend(this);
+	}
 }
 

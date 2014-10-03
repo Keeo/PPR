@@ -10,8 +10,27 @@ int main(int argc, char* argv[])
 	}
 
 	Game game;
-	game.load(argv[1]);
-	game.print();
+	Graph& gm = game.getGraph();
+	gm.load(argv[1]);
+	gm.print();
+
+	Node* n2 = gm.getNode(2);
+	Node* n3 = gm.getNode(3);
+	Node* n4 = gm.getNode(4);
+	
+	gm.removeNode(n2);
+	gm.removeNode(n3);
+	gm.removeNode(n4);
+
+	gm.print();
+
+	gm.restoreNode(n2);
+	gm.restoreNode(n3);
+	gm.restoreNode(n4);
+
+	gm.print();
+
+
 	std::cin.get();
 	return 0;
 }
