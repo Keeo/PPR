@@ -52,7 +52,7 @@ void Graph::print()
 		if (removed_nodes_[i]) {
 			continue;
 		}
-
+		std::cout << i << " - ";
 		for (int j = 0; j < cnodes_; ++j) {
 			if (removed_nodes_[j]) {
 				continue;
@@ -86,3 +86,8 @@ Node* Graph::getNode(int node_number)
 	return &nodes_[node_number];
 }
 
+
+bool const* Graph::getNodeMask()
+{
+	return removed_nodes_;
+}
