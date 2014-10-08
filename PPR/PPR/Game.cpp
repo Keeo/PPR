@@ -13,5 +13,10 @@ Game::~Game()
 
 Graph& Game::getGraph()
 {
-	return Graph_;
+	return board_.getGraph();
+}
+
+Board& Game::getBoard()
+{
+	return board_;
 }

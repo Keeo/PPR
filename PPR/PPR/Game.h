@@ -2,15 +2,17 @@
 
 #include "Node.h"
 #include "Graph.h"
+#include "Board.h"
 
 class Game
 {
-	Graph Graph_;
+	Board board_;
 
 public:
 	Game();
 	~Game();
 
 	Graph& getGraph();
+	Board& getBoard();
 };
 

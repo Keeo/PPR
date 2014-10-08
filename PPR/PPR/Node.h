@@ -20,9 +20,12 @@ public:
 
 	void removeFriend(Node* node);
 	void removeMyselfFromFriends();
+	
+	// Content of vector will change based on called methods.
+	std::vector<Node*>* getFriends();
 
 	~Node();
-
+	
 	int getNodeNumber() const;
 
 	bool operator == (const Node &that) const {

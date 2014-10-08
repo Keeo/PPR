@@ -62,6 +62,12 @@ int Node::getNodeNumber() const
 }
 
 
+std::vector<Node*>* Node::getFriends()
+{
+	return &friends_;
+}
+
+
 void Node::removeMyselfFromFriends()
 {
 	for (auto &i : friends_) {

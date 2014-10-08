@@ -16,6 +16,8 @@ public:
 	void removeNode(Node* node);
 	void restoreNode(Node* node);
 
+	bool const* getNodeMask();
+
 	void load(char* filepath);
 	void print();
 
