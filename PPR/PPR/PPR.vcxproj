@@ -82,6 +82,8 @@
     <ClInclude Include="Board.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="Graph.h" />
+    <ClInclude Include="GraphIterator.h" />
+    <ClInclude Include="Log.h" />
     <ClInclude Include="Step.h" />
     <ClInclude Include="Node.h" />
     <ClInclude Include="stdafx.h" />
@@ -91,8 +93,10 @@
     <ClCompile Include="Board.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="Graph.cpp" />
+    <ClCompile Include="Log.cpp" />
     <ClCompile Include="Node.cpp" />
     <ClCompile Include="PPR.cpp" />
+    <ClCompile Include="GraphIterator.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>

@@ -17,13 +17,13 @@ public:
 
 	void setMove(Node* n);
 
-	bool const* getAvailableMoves();
-
-	void restoreLastMove();
+	void restoreLastMove(int moves = 1);
 
 	unsigned int getCMoves();
 
 	Graph& getGraph();
+
+	bool isWin();
 
 	Board();
 	~Board();
