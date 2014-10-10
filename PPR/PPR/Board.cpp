@@ -27,31 +27,27 @@ void Board::setMove(Node* n)
 }
 
 
-bool const* Board::getAvailableMoves()
+void Board::restoreLastMove(int moves)
 {
-	return graph_.getNodeMask();
-}
-
-
-void Board::restoreLastMove()
-{
-	if (steps_.size() == 0) {
-		std::cout << "[ERR] No moves to restore!" << std::endl;
-		return;
-	}
-
-	Step* last = &steps_.back();
-	while (last->move == cmoves_) {
-		graph_.restoreNode(last->node);
-		steps_.pop_back();
+	for (int i = 0; i < moves; ++i) {
 		if (steps_.size() == 0) {
-			break;
+			LOG("err", "No moves to restore!");
+			return;
 		}
-		else {
-			last = &steps_.back();
+
+		Step* last = &steps_.back();
+		while (last->move == cmoves_) {
+			graph_.restoreNode(last->node);
+			steps_.pop_back();
+			if (steps_.size() == 0) {
+				break;
+			}
+			else {
+				last = &steps_.back();
+			}
 		}
+		--cmoves_;
 	}
-	--cmoves_;
 }
 
 
@@ -64,5 +60,24 @@ unsigned int Board::getCMoves()
 Graph& Board::getGraph()
 {
 	return graph_;
+}
+
+
+bool Board::isWin()
+{
+	if (graph_.getCNodes() != graph_.getCRemovedNodes()) {
+		return false;
+	}
+	else {
+		bool win = cmoves_ % 2;
+		if (win) {
+			std::stringstream ss;
+			for (auto &n : steps_) {
+				ss << "{n:" << n.node->getNodeNumber() << ",m:" << n.move << "}, ";
+			}
+			LOG("steps", ss.str());
+		}
+		return win;
+	}
 }
 

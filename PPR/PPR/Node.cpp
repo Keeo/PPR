@@ -40,7 +40,7 @@ void Node::removeFriend(Node* node)
 		friends_.erase(it);
 	}
 	else {
-		std::cout << "[WRN] Trying to remove non existing node!";
+		LOG("wrn", "Trying to remove non existing node!");
 	}
 }
 

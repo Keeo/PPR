@@ -6,6 +6,7 @@
 #pragma once
 
 #include "targetver.h"
+#include "Log.h"
 
 #include <stdio.h>
 #include <tchar.h>
@@ -16,5 +17,13 @@
 #include <iostream>
 #include <string>
 #include <list>
+
+#ifdef _DEBUG
+#define LOG(type, message) Log::getInstance().info(type, message);
+#define LOG_LN() Log::getInstance().ln();
+#else
+#define LOG(type, message)
+#define LOG_LN() Log::getInstance().ln();
+#endif
 
 // TODO: reference additional headers your program requires here

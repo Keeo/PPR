@@ -1,8 +1,9 @@
 #include "stdafx.h"
 #include "Graph.h"
+#include "GraphIterator.h"
 
 
-Graph::Graph()
+Graph::Graph() : cremoved_nodes_(0)
 {
 }
 
@@ -18,7 +19,7 @@ void Graph::load(char* filepath)
 	std::ifstream graf(filepath);
 	if (!graf.is_open())
 	{
-		std::cout << "[ERR] File cannot be opened!";
+		LOG("ERR", "File cannot be opened!");
 		return;
 	}
 
@@ -27,18 +28,19 @@ void Graph::load(char* filepath)
 	nodes_ = new Node[cnodes_];
 	removed_nodes_ = new bool[cnodes_];
 
-	for (int i = 0; i < cnodes_; ++i) {
-		std::cout << "[INF] Processing node " << i << " friends: ";
+	for (unsigned int i = 0; i < cnodes_; ++i) {
+		std::stringstream ss;
+		ss << "Processing node " << i << " friends: ";
 		nodes_[i].init(i);
 		getline(graf, line);
 		for (std::string::size_type j = 0; j < line.size(); ++j) {
 			if (line[j] == '1') {
-				std::cout << j << ", ";
+				ss << j << ", ";
 				nodes_[i].addFriend(&nodes_[j]);
 			}
 		}
 		removed_nodes_[i] = false;
-		std::cout << std::endl;
+		LOG("inf", ss.str());
 	}
 	graf.close();
 }
@@ -46,38 +48,41 @@ void Graph::load(char* filepath)
 
 void Graph::print()
 {
-	std::cout << "[INF] Printing nodes..." << std::endl;
-	std::cout << "Nodes count: " << cnodes_ << std::endl;
-	for (int i = 0; i < cnodes_; ++i) {
+	LOG("inf", "Printing nodes...");
+	LOG("inf", "Nodes count: " + std::to_string(cnodes_));
+	for (unsigned int i = 0; i < cnodes_; ++i) {
 		if (removed_nodes_[i]) {
 			continue;
 		}
-		std::cout << i << " - ";
-		for (int j = 0; j < cnodes_; ++j) {
+		std::stringstream ss;
+		ss << i << " - ";
+		for (unsigned int j = 0; j < cnodes_; ++j) {
 			if (removed_nodes_[j]) {
 				continue;
 			}
-			std::cout << (nodes_[i].hasFriend(j) != 0) << " ";
+			ss << (nodes_[i].hasFriend(j) != 0) << " ";
 		}
-		std::cout << std::endl;
+		LOG("node", ss.str());
 	}
-	std::cout << "[INF] Nodes printed." << std::endl;
+	LOG("inf", "Nodes printed");
 }
 
 
 void Graph::removeNode(Node* node)
 {
-	std::cout << "Removing node " << node->getNodeNumber() << "." << std::endl;
+	LOG("inf", "Removing node " + std::to_string(node->getNodeNumber()) + ".");
 	node->removeMyselfFromFriends();
 	removed_nodes_[node->getNodeNumber()] = true;
+	++cremoved_nodes_;
 }
 
 
 void Graph::restoreNode(Node* node)
 {
-	std::cout << "Restoring node " << node->getNodeNumber() << "." << std::endl;
+	LOG("inf", "Restoring node " + std::to_string(node->getNodeNumber()) + ".");
 	node->addMyselfToFriends();
 	removed_nodes_[node->getNodeNumber()] = false;
+	--cremoved_nodes_;
 }
 
 
@@ -87,7 +92,27 @@ Node* Graph::getNode(int node_number)
 }
 
 
-bool const* Graph::getNodeMask()
+bool const* Graph::getRemovedNodes()
 {
 	return removed_nodes_;
 }
+
+
+unsigned int Graph::getCNodes()
+{
+	return cnodes_;
+}
+
+
+unsigned int Graph::getCRemovedNodes()
+{
+	return cremoved_nodes_;
+}
+
+
+GraphIterator Graph::getGraphIterator()
+{
+	GraphIterator gi(this);
+	return gi;
+}
+
