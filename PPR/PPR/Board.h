@@ -25,6 +25,8 @@ public:
 
 	bool isWin();
 
+	std::vector<Step> const* getSteps();
+
 	Board();
 	~Board();
 };

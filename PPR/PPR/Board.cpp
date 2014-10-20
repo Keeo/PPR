@@ -81,3 +81,9 @@ bool Board::isWin()
 	}
 }
 
+
+std::vector<Step> const* Board::getSteps()
+{
+	return const_cast<std::vector<Step> const*>(&steps_);
+}
+
