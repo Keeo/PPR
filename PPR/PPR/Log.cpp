@@ -25,6 +25,9 @@ Log::~Log()
 
 void Log::info(std::string type, std::string message)
 {
+	/*if (type != "stack") return;
+	else logFile_ << message << std::endl;
+	return;*/
 	logFile_ << "[" << type << "] " << message << std::endl;
 	if (print_) std::cout << "[" << type << "] " << message << std::endl;
 }
