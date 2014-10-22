@@ -7,18 +7,15 @@ Node::Node()
 }
 
 
-Node::Node(int node_number, int cfriends)
+Node::Node(int node_number)
 {
-	init(node_number, cfriends);
+	init(node_number);
 }
 
 
-inline void Node::init(int node_number, int cfriends)
+inline void Node::init(int node_number)
 {
 	node_number_ = node_number;
-	if (cfriends != 0){
-		friends_.reserve(cfriends);
-	}
 }
 
 

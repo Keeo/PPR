@@ -69,7 +69,7 @@ bool Board::isWin()
 		return false;
 	}
 	else {
-		bool win = cmoves_ % 2;
+		bool win = !!(cmoves_ % 2);
 		if (win) {
 			std::stringstream ss;
 			for (auto &n : steps_) {

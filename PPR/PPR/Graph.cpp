@@ -10,6 +10,8 @@ Graph::Graph() : cremoved_nodes_(0)
 
 Graph::~Graph()
 {
+	delete[] nodes_;
+	delete[] removed_nodes_;
 }
 
 
@@ -112,7 +114,6 @@ unsigned int Graph::getCRemovedNodes()
 
 GraphIterator Graph::getGraphIterator()
 {
-	GraphIterator gi(this);
-	return gi;
+	return GraphIterator(this);
 }
 
