@@ -23,7 +23,6 @@
 #define LOG_LN() Log::getInstance().ln();
 #else
 #define LOG(type, message)
-#define LOG_LN() Log::getInstance().ln();
+#define LOG_LN()
 #endif
 
-// TODO: reference additional headers your program requires here

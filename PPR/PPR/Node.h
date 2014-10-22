@@ -9,9 +9,11 @@ class Node
 
 public:
 	Node();
-	Node(int node_number, int cfriends = 0);
+	~Node();
 
-	void init(int node_number, int cfriends = 0);
+	Node(int node_number);
+
+	void init(int node_number);
 
 	void addFriend(Node* node);
 	void addMyselfToFriends();
@@ -23,8 +25,6 @@ public:
 	
 	// Content of vector will change based on called methods.
 	std::vector<Node*>* getFriends();
-
-	~Node();
 	
 	int getNodeNumber() const;
 
