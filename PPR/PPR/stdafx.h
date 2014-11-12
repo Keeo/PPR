@@ -5,11 +5,9 @@
 
 #pragma once
 
-#include "targetver.h"
 #include "Log.h"
 
 #include <stdio.h>
-#include <tchar.h>
 #include <memory>
 #include <vector>
 #include <algorithm>
