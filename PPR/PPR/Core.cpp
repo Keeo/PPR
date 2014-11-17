@@ -198,16 +198,17 @@ void Core::processMessage(char* message, int messageLength, MPI_Status* status)
 		case MSG_WORKING: {
 				bool working = (bool)&message;
 				LOG("core", "Working packet obsahuje:" + std::to_string(working));
-				bool myWorking = !(waitingForWork_ == true && workThisSent_ == false && workLastSent_ == false && working == false);
-				if (processor_ == 0 && !myWorking) {
+				bool workDone = waitingForWork_ == true && workThisSent_ == false && workLastSent_ == false;
+				if (processor_ == 0 && workDone && working == false) {
 					jobDone_ = true;
 				}
 				
 				if (processor_ == 0) {
-					working = myWorking;
+					LOG("core", "Nastavuji working packet na:" + std::to_string(workDone));
+					working = workDone;
 				}
 				else{
-					working |= myWorking;
+					working |= !workDone;
 				}
 				
 
