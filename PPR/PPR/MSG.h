@@ -1,5 +1,7 @@
 #pragma once
 
+#include <string>
+
 enum MSG : int {
 	MSG_WORK_REQUEST,
 	MSG_WORK_SENT,
