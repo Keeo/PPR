@@ -142,6 +142,7 @@ void Core::handleRequests()
 			MPI_Get_count(&status, MPI_BYTE, &messageLength);
 			if (messageLength > MAX_MESSAGE) {
 				LOG("MPI", "Received message longer than allowed");
+				exit(85);
 			}
 			MPI_Recv(&message, messageLength, MPI_BYTE, MPI_ANY_SOURCE, MPI_ANY_TAG, MPI_COMM_WORLD, &status);
 			processMessage(message, messageLength, &status);

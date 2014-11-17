@@ -27,7 +27,7 @@ void Bridge::setWork(char* data, int dataLength)
 		ss << a << " ";
 	}
 	
-	LOG("bridge", "Prijata prace obsahuje:" + ss.str());
+	LOG("bridge", "Prijata prace obsahuje: " + ss.str());
 
 	game_.loadWork(moves);
 }
