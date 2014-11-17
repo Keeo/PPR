@@ -66,7 +66,7 @@ std::string Stack::getString()
 	std::stringstream ss;
 	ss << "Values in stack: ";
 	for (auto& i : *this) {
-		ss << "{" << i.node << ", " << i.move << "} ";
+		ss << "{" << i.node->getNodeNumber() << ", " << i.move << "} ";
 	}
 	return ss.str();
 }
