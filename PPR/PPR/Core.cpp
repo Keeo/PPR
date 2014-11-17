@@ -164,9 +164,18 @@ void Core::sendWork(MPI_Status* status)
 		std::stringstream ss;
 		std::vector<int> v(*work.data(), *work.data() + byteSize);
 		for (auto &a : v) {
-			ss << a << " ";
+			ss << std::to_string(a) << " ";
 		}
 		LOG("wtf2", ss.str());
+
+
+		std::stringstream ss2;
+		for (auto &a : work) {
+			ss2 << std::to_string(a) << " ";
+		}
+		LOG("wtf3", ss2.str());
+
+
 		MPI_Send(work.data(), byteSize, MPI_BYTE, status->MPI_SOURCE, MSG_WORK_SENT, MPI_COMM_WORLD);
 	}
 	else {
