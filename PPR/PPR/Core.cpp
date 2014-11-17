@@ -294,10 +294,17 @@ void Core::finalize()
 		MPI_Probe(bestResultPc_, MSG_GET_SOLUTION, MPI_COMM_WORLD, &status);
 		MPI_Get_count(&status, MPI_INT, &messageLength);
 		
-		LOG("Core", "Incoming data size:" + messageLength);
+		LOG("Core", "Incoming data size:" + std::to_string(messageLength));
 		message = new int[messageLength];
 		MPI_Recv(&message, messageLength, MPI_INT, bestResultPc_, MSG_GET_SOLUTION, MPI_COMM_WORLD, &status);
-		LOG("Core", "Best solution received");
+
+		std::cout << "Best solution:" << std::endl;
+		for (int i = 0; i < messageLength; ++i) {
+			std::cout << std::to_string(message[i]) << std::endl;
+		}
+
+
+		LOG("Core", "Best solution received.");
 	}
 	else{
 		std::vector<int> solution = bridge_.getSolution();
