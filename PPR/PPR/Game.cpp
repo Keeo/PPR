@@ -72,7 +72,7 @@ void Game::loadWork(std::vector<int> moves)
 
 std::vector<std::vector<int>> Game::getWork(int amount)
 {
-	return stack_.getWork(amount, *board_.getSteps());
+	return stack_.getWork(amount, board_.getSteps());
 }
 
 

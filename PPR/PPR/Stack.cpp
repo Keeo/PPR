@@ -2,7 +2,7 @@
 #include "Stack.h"
 
 
-std::vector<std::vector<int>> Stack::getWork(int count, const std::vector<Step> boardSteps)
+std::vector<std::vector<int>> Stack::getWork(int count, std::vector<Step> const* boardSteps)
 {
 	std::vector<std::vector<int>> ret(count);
 
@@ -14,14 +14,16 @@ std::vector<std::vector<int>> Stack::getWork(int count, const std::vector<Step> 
 }
 
 
-std::vector<int> Stack::getOneWork(const std::vector<Step> boardSteps)
+std::vector<int> Stack::getOneWork(std::vector<Step> const* boardSteps)
 {
+	LOG("stack", "Building one work");
 	std::vector<int> out;
 	if (!isForkable(front())) {
 		return out;
 	}
-
-	for (auto &a : boardSteps) {
+	LOG("stack", "Forkable: true");
+	
+	for (auto &a : *boardSteps) {
 		if (a.move >= front().move) {
 			break;
 		}
