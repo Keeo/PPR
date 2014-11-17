@@ -10,13 +10,14 @@ Core::Core(std::string datafile)
 	waitingForWork_ = false;
 	workSent_ = false;
 	jobDone_ = false;
+	initDataLength_ = 0;
 
 	Log::getInstance().init(processor_);
 
 	if (processor_ == 0) {
 		readInitData(datafile);
 	}
-
+	distributeInitDataSize();
 	distributeInitData();
 }
 
@@ -40,19 +41,28 @@ void Core::readInitData(std::string datafile)
 }
 
 
-void Core::distributeInitData()
+void Core::distributeInitDataSize()
 {
-	LOG("mpi", "Sending init data size:" + std::to_string(initDataLength_));
 	int ret = MPI_Bcast(&initDataLength_, 1, MPI_INTEGER, 0, MPI_COMM_WORLD);
+
 	if (ret != MPI_SUCCESS) {
 		LOG("mpi", "Distribute size of work failed!");
+	}
+
+	if (initDataLength_ == 0) {
+		LOG("mpi", "Missing init data!");
 	}
 
 	if (processor_ != 0) {
 		initData_ = new char[initDataLength_];
 	}
+}
 
-	ret = MPI_Bcast(initData_, initDataLength_, MPI_CHAR, 0, MPI_COMM_WORLD);
+
+void Core::distributeInitData()
+{
+	LOG("mpi", "Sending init data size:" + std::to_string(initDataLength_));
+	int ret = MPI_Bcast(initData_, initDataLength_, MPI_CHAR, 0, MPI_COMM_WORLD);
 	if (ret != MPI_SUCCESS) {
 		LOG("mpi", "Distribute work failed!");
 	}

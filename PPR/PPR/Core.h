@@ -21,6 +21,7 @@ class Core
 
 	void readInitData(std::string datafile);
 	void distributeInitData();
+	void distributeInitDataSize();
 	void handleRequests();
 	void processMessage(char* message, int messageLength, MPI_Status* status, std::vector<int>* needWork);
 	void sendWorks(std::vector<int>* needWork);
