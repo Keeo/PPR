@@ -301,8 +301,9 @@ void Core::finalize()
 	}
 	else{
 		std::vector<int> solution = bridge_.getSolution();
-		message = solution.data();
 		messageLength = solution.size();
+		message = new int[messageLength];
+		memcpy(message, solution.data(), sizeof(message));
 	}
 
 	MPI_Send(NULL, 0, MPI_CHAR, 1, MSG_FINISH, MPI_COMM_WORLD);
