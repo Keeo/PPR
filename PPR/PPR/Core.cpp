@@ -205,7 +205,7 @@ void Core::processMessage(char* message, int messageLength, MPI_Status* status)
 				
 				if (processor_ == 0) {
 					LOG("core", "Nastavuji working packet na:" + std::to_string(workDone));
-					working = workDone;
+					working = !workDone;
 				}
 				else{
 					working |= !workDone;
