@@ -6,6 +6,10 @@ void Bridge::initData(char* data, int dataLength, bool start)
 {
 	std::istringstream graf(data);
 	game_.getGraph().load(&graf);
+
+	if (start) {
+		game_.addNextMoves(0);
+	}
 }
 
 void Bridge::setWork(char* data, int dataLength)

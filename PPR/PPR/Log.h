@@ -17,6 +17,7 @@ public:
 	void info(std::string type, std::string message);
 	void ln();
 	void setPrint(bool b);
+	void init(int processor);
 
 private:
 	bool print_;

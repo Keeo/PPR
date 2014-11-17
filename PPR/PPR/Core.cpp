@@ -11,6 +11,8 @@ Core::Core(std::string datafile)
 	workSent_ = false;
 	jobDone_ = false;
 
+	Log::getInstance().init(processor_);
+
 	if (processor_ == 0) {
 		readInitData(datafile);
 	}

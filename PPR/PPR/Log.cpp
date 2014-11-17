@@ -4,10 +4,15 @@
 
 Log::Log()
 {
+	
+}
+
+void Log::init(int processor)
+{
 	std::stringstream ss;
 	ss << time(0);
 	std::string str = ss.str();
-	logFile_.open("log/log-" + str + ".txt");
+	logFile_.open("log/log-" + str + "-" + std::to_string(processor) + ".txt");
 	if (!logFile_.is_open()) {
 		std::cerr << "[ERR] Log file cant be open!" << std::endl;
 	}

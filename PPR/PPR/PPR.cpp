@@ -8,7 +8,6 @@ int main(int argc, char* argv[])
 
 	if (argc == 1) {
 		std::cout << "[INF] Run with graph set: ./ppr ../../Assets/n10k5.grf";
-		LOG("err", "Wrong parameters!");
 		return 1;
 	}
 
