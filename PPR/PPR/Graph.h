@@ -21,7 +21,7 @@ public:
 
 	bool const* getRemovedNodes();
 
-	void load(char* filepath);
+	void load(std::istream* stream);
 	void print();
 
 	Node* getNode(int node_number);

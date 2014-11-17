@@ -4,27 +4,30 @@
 
 void Bridge::initData(char* data, int dataLength, bool start)
 {
-
+	std::istringstream graf(data);
+	game_.getGraph().load(&graf);
 }
 
 void Bridge::setWork(char* data, int dataLength)
 {
-
+	int* temp = (int*)data;
+	std::vector<int> moves(temp, temp + dataLength);
+	game_.loadWork(moves);
 }
 
 std::vector<int> Bridge::getSolution()
 {
-	return std::vector<int>() ;
+	return std::vector<int>();
 }
 
-std::vector<std::vector<Step>> Bridge::getWork(int count)
+std::vector<std::vector<int>> Bridge::getWork(int count)
 {
-	return std::vector<std::vector<Step>>();
+	return game_.getWork(count);
 }
 
 int Bridge::getBestResult()
 {
-	return 0;
+	return 666;
 }
 
 void Bridge::setBestResult(int steps)
@@ -34,7 +37,7 @@ void Bridge::setBestResult(int steps)
 
 EWORK Bridge::work()
 {
-	return EWORK_OK;
+	return game_.run();
 }
 
 

@@ -15,17 +15,11 @@ Graph::~Graph()
 }
 
 
-void Graph::load(char* filepath)
+void Graph::load(std::istream* stream)
 {
 	std::string line;
-	std::ifstream graf(filepath);
-	if (!graf.is_open())
-	{
-		LOG("ERR", "File cannot be opened!");
-		return;
-	}
 
-	getline(graf, line);
+	getline(*stream, line);
 	cnodes_ = std::stoi(line);
 	nodes_ = new Node[cnodes_];
 	removed_nodes_ = new bool[cnodes_];
@@ -34,7 +28,7 @@ void Graph::load(char* filepath)
 		std::stringstream ss;
 		ss << "Processing node " << i << " friends: ";
 		nodes_[i].init(i);
-		getline(graf, line);
+		getline(*stream, line);
 		for (std::string::size_type j = 0; j < line.size(); ++j) {
 			if (line[j] == '1') {
 				ss << j << ", ";
@@ -44,7 +38,6 @@ void Graph::load(char* filepath)
 		removed_nodes_[i] = false;
 		LOG("inf", ss.str());
 	}
-	graf.close();
 }
 
 

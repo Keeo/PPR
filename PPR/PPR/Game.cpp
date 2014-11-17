@@ -54,12 +54,25 @@ void Game::save(unsigned int cmoves, std::vector<Step> const* steps)
 	}
 }
 
+
 void Game::addNextMoves(unsigned int depth)
 {
 	for (auto node : board_.getGraph().getGraphIterator()) {
 		Step s(&*node, depth);
 		stack_.push_back(s);
 	}
+}
+
+
+void Game::loadWork(std::vector<int> moves)
+{
+	stack_.loadWork(moves, &board_);
+}
+
+
+std::vector<std::vector<int>> Game::getWork(int amount)
+{
+	return stack_.getWork(amount, *board_.getSteps());
 }
 
 
@@ -72,5 +85,11 @@ Graph& Game::getGraph()
 Board& Game::getBoard()
 {
 	return board_;
+}
+
+
+Stack& Game::getStack()
+{
+	return stack_;
 }
 
