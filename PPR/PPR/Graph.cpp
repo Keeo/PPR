@@ -66,6 +66,11 @@ void Graph::print()
 void Graph::removeNode(Node* node)
 {
 	LOG("inf", "Removing node " + std::to_string(node->getNodeNumber()) + ".");
+	if (removed_nodes_[node->getNodeNumber()]) {
+		LOG("graph", "Removing removed node!");
+		exit(67);
+	}
+
 	node->removeMyselfFromFriends();
 	removed_nodes_[node->getNodeNumber()] = true;
 	++cremoved_nodes_;
@@ -75,6 +80,11 @@ void Graph::removeNode(Node* node)
 void Graph::restoreNode(Node* node)
 {
 	LOG("inf", "Restoring node " + std::to_string(node->getNodeNumber()) + ".");
+	if (!removed_nodes_[node->getNodeNumber()]) {
+		LOG("graph", "Restoring restored node!");
+		exit(67);
+	}
+
 	node->addMyselfToFriends();
 	removed_nodes_[node->getNodeNumber()] = false;
 	--cremoved_nodes_;
