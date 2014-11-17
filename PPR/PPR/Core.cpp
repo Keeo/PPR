@@ -229,26 +229,28 @@ void Core::processMessage(char* message, int messageLength, MPI_Status* status)
 				MPI_Send(solution.data(), solution.size(), MPI_INT, status->MPI_SOURCE, MSG_GET_SOLUTION, MPI_COMM_WORLD);
 			}
 			else {
-				bestResultPc_ = status->MPI_SOURCE;
-				jobDone_ = true;
+				LOG("Core", "Get best solution asked frome not 0-processor!");
+				exit(72);
 			}
 
 			}
 			break;
 
 		case MSG_BEST_FOUND: {
-				int bestResult = bridge_.getBestResult();
-				int networkResult = (int)*message;
-				if (bestResult > networkResult) {
-					bridge_.setBestResult(networkResult);
-					bestResultPc_ = status->MPI_SOURCE;
-				}
-				if (bestResult < networkResult) {
-					networkResult = bestResult;
-					bestResultPc_ = processor_;
-				}
+			int bestResult = bridge_.getBestResult();
+			int networkResult = (int)*message;
+			LOG("Core", "Best result looping in packet:" + std::to_string(networkResult));
+			if (bestResult > networkResult) {
+				bridge_.setBestResult(networkResult);
+				bestResultPc_ = status->MPI_SOURCE;
+			}
+			if (bestResult < networkResult) {
+				networkResult = bestResult;
+				bestResultPc_ = processor_;
+			}
 
-				MPI_Send(&networkResult, 1, MPI_INT, nextProcessor(processor_), MSG_BEST_FOUND, MPI_COMM_WORLD);
+			MPI_Send(&networkResult, 1, MPI_INT, nextProcessor(processor_), MSG_BEST_FOUND, MPI_COMM_WORLD);
+
 			}
 			break;
 
@@ -279,8 +281,9 @@ void Core::finalize()
 
 	int messageLength;
 	int* message;
+
 	if (bestResultPc_ != 0){
-		MPI_Send(NULL, 0, MPI_CHAR, bestResultPc_, MSG_GET_SOLUTION, MPI_COMM_WORLD);
+		MPI_Send(NULL, 0, MPI_INT, bestResultPc_, MSG_GET_SOLUTION, MPI_COMM_WORLD);
 
 		MPI_Status status;
 		MPI_Probe(bestResultPc_, MSG_GET_SOLUTION, MPI_COMM_WORLD, &status);
