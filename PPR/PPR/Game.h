@@ -21,7 +21,7 @@ public:
 	Game();
 	~Game();
 
-	void run();
+	EWORK run();
 	void addNextMoves(unsigned int depth);
 
 	void save(unsigned int csteps, std::vector<Step> const* steps);

@@ -13,10 +13,12 @@ Game::~Game()
 }
 
 
-void Game::run()
+EWORK Game::run()
 {
 	unsigned int depth = 0;
 	
+	int looper = 100;
+
 	while (stack_.size() > 0) {
 		LOG("stack", "" + std::to_string(stack_.size()));
 		Step step = stack_.back();
@@ -34,7 +36,12 @@ void Game::run()
 		}
 		++depth;
 		addNextMoves(depth);
+		if (--looper == 0) {
+			break;
+		}
 	}
+
+	return stack_.size() == 0 ? EWORK_OUT_OF_WORK : EWORK_OK;
 }
 
 
