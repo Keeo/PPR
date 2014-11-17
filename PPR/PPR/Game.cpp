@@ -17,7 +17,7 @@ EWORK Game::run()
 {
 	unsigned int depth = 0;
 	
-	int looper = 100;
+	int looper = 20;
 
 	while (stack_.size() > 0) {
 		LOG("stack", "" + std::to_string(stack_.size()));

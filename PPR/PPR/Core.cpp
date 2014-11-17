@@ -16,7 +16,6 @@ Core::Core(std::string datafile)
 	workSent_ = false;
 	jobDone_ = false;
 	initDataLength_ = 0;
-
 	
 
 	if (processor_ == 0) {
@@ -144,7 +143,9 @@ void Core::handleRequests()
 			processMessage(message, messageLength, &status, &needWork);
 		}
 		else {
-			sendWorks(&needWork);
+			if (!needWork.empty()) {
+				sendWorks(&needWork);
+			}
 			break;
 		}
 	}
@@ -155,19 +156,23 @@ void Core::handleRequests()
 void Core::sendWorks(std::vector<int>* needWork)
 {
 	bool workSent = false;
-
+	LOG("mpi", std::to_string(needWork->size()) + ". processors need work.");
 	std::vector<std::vector<int>> works = bridge_.getWork(needWork->size());
+	LOG("mpi", "Work prepared.");
 	for (auto &work : works) {
 		if (work.size() > 0) {
 			workSent = true;
+			LOG("mpi", "Sending work to:" + std::to_string(needWork->back()));
 			MPI_Send(work.data(), work.size(), MPI_INT, needWork->back(), MSG_WORK_SENT, MPI_COMM_WORLD);
 		}
 		else {
+			LOG("mpi", "Sending work_nowork to:" + std::to_string(needWork->back()));
 			MPI_Send(NULL, 0, MPI_CHAR, needWork->back(), MSG_WORK_NOWORK, MPI_COMM_WORLD);
 		}
 		needWork->pop_back();
 	}
 	workSent_ = workSent;
+	LOG("mpi", "All works sent.");
 }
 
 
