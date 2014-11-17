@@ -4,7 +4,7 @@
 #include "Step.h"
 #include "limits.h"
 #include <deque>
-#include "Board.h";
+#include "Board.h"
 
 class Stack : public std::deque<Step>
 {
