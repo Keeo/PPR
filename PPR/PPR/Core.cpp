@@ -130,7 +130,6 @@ void Core::handleRequests()
 	int messageLength;
 	char message[MAX_MESSAGE];
 	MPI_Status status;
-	std::vector<int> needWork;
 
 	while (true) {
 		MPI_Iprobe(MPI_ANY_SOURCE, MPI_ANY_TAG, MPI_COMM_WORLD, &flag, &status);
@@ -140,12 +139,9 @@ void Core::handleRequests()
 				LOG("MPI", "Received message longer than allowed");
 			}
 			MPI_Recv(&message, messageLength, MPI_CHAR, MPI_ANY_SOURCE, MPI_ANY_TAG, MPI_COMM_WORLD, &status);
-			processMessage(message, messageLength, &status, &needWork);
+			processMessage(message, messageLength, &status);
 		}
 		else {
-			if (!needWork.empty()) {
-				sendWorks(&needWork);
-			}
 			break;
 		}
 	}
@@ -153,36 +149,28 @@ void Core::handleRequests()
 }
 
 
-void Core::sendWorks(std::vector<int>* needWork)
+void Core::sendWork(MPI_Status* status)
 {
-	bool workSent = false;
-	LOG("mpi", std::to_string(needWork->size()) + ". processors need work.");
-	std::vector<std::vector<int>> works = bridge_.getWork(needWork->size());
-	LOG("mpi", "Work prepared.");
-	for (auto &work : works) {
-		if (work.size() > 0) {
-			workSent = true;
-			LOG("mpi", "Sending work to:" + std::to_string(needWork->back()));
-			MPI_Send(work.data(), work.size(), MPI_INT, needWork->back(), MSG_WORK_SENT, MPI_COMM_WORLD);
-		}
-		else {
-			LOG("mpi", "Sending work_nowork to:" + std::to_string(needWork->back()));
-			MPI_Send(NULL, 0, MPI_CHAR, needWork->back(), MSG_WORK_NOWORK, MPI_COMM_WORLD);
-		}
-		needWork->pop_back();
+	std::vector<int> work = bridge_.getWork();
+
+	if (work.size() > 0) {
+		workSent_ = true;
+		LOG("mpi", "Sending work to:" + std::to_string(status->MPI_SOURCE));
+		MPI_Send(work.data(), work.size(), MPI_INT, status->MPI_SOURCE, MSG_WORK_SENT, MPI_COMM_WORLD);
 	}
-	workSent_ = workSent;
-	LOG("mpi", "All works sent.");
+	else {
+		LOG("mpi", "Sending work_nowork to:" + std::to_string(status->MPI_SOURCE));
+		MPI_Send(NULL, 0, MPI_CHAR, status->MPI_SOURCE, MSG_WORK_NOWORK, MPI_COMM_WORLD);
+	}
 }
 
-
-void Core::processMessage(char* message, int messageLength, MPI_Status* status, std::vector<int>* needWork)
+void Core::processMessage(char* message, int messageLength, MPI_Status* status)
 {
 	LOG("mpi", "Prisel packet od: " + std::to_string(status->MPI_SOURCE) + " tag:" + to_string((MSG)status->MPI_TAG) + " size:" + std::to_string(messageLength));
 
 	switch (status->MPI_TAG) {
 		case MSG_WORK_REQUEST:
-				needWork->push_back(status->MPI_SOURCE);
+			sendWork(status);
 			break;
 
 		case MSG_WORK_SENT:

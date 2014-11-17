@@ -27,7 +27,7 @@ public:
 	void save(unsigned int csteps, std::vector<Step> const* steps);
 
 	void loadWork(std::vector<int> moves);
-	std::vector<std::vector<int>> getWork(int amount);
+	std::vector<int> getWork();
 
 	Graph& getGraph();
 	Board& getBoard();

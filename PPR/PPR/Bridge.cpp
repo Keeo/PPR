@@ -32,9 +32,9 @@ std::vector<int> Bridge::getSolution()
 	return std::vector<int>();
 }
 
-std::vector<std::vector<int>> Bridge::getWork(int count)
+std::vector<int> Bridge::getWork()
 {
-	return game_.getWork(count);
+	return game_.getWork();
 }
 
 int Bridge::getBestResult()

@@ -23,8 +23,8 @@ class Core
 	void distributeInitData();
 	void distributeInitDataSize();
 	void handleRequests();
-	void processMessage(char* message, int messageLength, MPI_Status* status, std::vector<int>* needWork);
-	void sendWorks(std::vector<int>* needWork);
+	void processMessage(char* message, int messageLength, MPI_Status* status);
+	void sendWork(MPI_Status* status);
 
 	int nextProcessor(int processor);
 	void handleStatus(EWORK ework);

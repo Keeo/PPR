@@ -12,14 +12,13 @@ class Stack : public std::deque<Step>
 
 	int getcForkable();
 
-	std::vector<int> getOneWork(std::vector<Step> const* boardSteps);
 	bool isForkable(const Step& s);
 
 
 public:
 	void setBreakableDepth(int depth);
 
-	std::vector<std::vector<int>> getWork(int count, std::vector<Step> const* boardSteps);
+	std::vector<int> getWork(std::vector<Step> const* boardSteps);
 	void loadWork(std::vector<int>& moves, Board* b);
 };
 

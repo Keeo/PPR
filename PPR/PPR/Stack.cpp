@@ -2,20 +2,7 @@
 #include "Stack.h"
 
 
-std::vector<std::vector<int>> Stack::getWork(int count, std::vector<Step> const* boardSteps)
-{
-	LOG("stack", "get work for:" + std::to_string(count) + "processors.");
-	std::vector<std::vector<int>> ret(count);
-
-	for (int i = 0; i < count; ++i) {
-		ret[i] = getOneWork(boardSteps);
-	}
-	LOG("stack", "Work prepared.");
-	return ret;
-}
-
-
-std::vector<int> Stack::getOneWork(std::vector<Step> const* boardSteps)
+std::vector<int> Stack::getWork(std::vector<Step> const* boardSteps)
 {
 	LOG("stack", "Building one work");
 	std::vector<int> out;
