@@ -302,7 +302,7 @@ void Core::finalize()
 	MPI_Send(NULL, 0, MPI_CHAR, 1, MSG_FINISH, MPI_COMM_WORLD);
 	std::cout << "Best solution:" << std::endl;
 	for (int i = 0; i < messageLength; ++i) {
-		std::cout << message[i] << std::endl;
+		std::cout << std::to_string(message[i]) << std::endl;
 	}
 	std::cout << "Thank you for working with Reynholm Industries." << std::endl;
 }
