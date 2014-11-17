@@ -298,12 +298,6 @@ void Core::finalize()
 		message = new int[messageLength];
 		MPI_Recv(&message, messageLength, MPI_INT, bestResultPc_, MSG_GET_SOLUTION, MPI_COMM_WORLD, &status);
 
-		std::cout << "Best solution:" << std::endl;
-		for (int i = 0; i < messageLength; ++i) {
-			std::cout << std::to_string(message[i]) << std::endl;
-		}
-
-
 		LOG("Core", "Best solution received.");
 	}
 	else{
@@ -314,10 +308,14 @@ void Core::finalize()
 	}
 
 	MPI_Send(NULL, 0, MPI_CHAR, 1, MSG_FINISH, MPI_COMM_WORLD);
-	std::cout << "Best solution:" << std::endl;
+
+	std::stringstream ss;
+	ss << "Best solution:" << std::endl;
 	for (int i = 0; i < messageLength; ++i) {
-		std::cout << std::to_string(message[i]) << std::endl;
+		ss << std::to_string(message[i]) << ", ";
 	}
+	LOG("WIN", ss.str());
+
 	std::cout << "Thank you for working with Reynholm Industries." << std::endl;
 }
 
