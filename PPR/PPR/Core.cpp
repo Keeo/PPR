@@ -166,7 +166,7 @@ void Core::sendWork(MPI_Status* status)
 		for (auto &a : v) {
 			ss << a << " ";
 		}
-
+		LOG("wtf2", ss.str());
 		MPI_Send(work.data(), byteSize, MPI_BYTE, status->MPI_SOURCE, MSG_WORK_SENT, MPI_COMM_WORLD);
 	}
 	else {
