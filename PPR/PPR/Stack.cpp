@@ -33,8 +33,12 @@ std::vector<int> Stack::getOneWork(std::vector<Step> const* boardSteps)
 	}
 	LOG("stack", std::to_string(out.size()) + "steps used as history.");
 
+	LOG("stack", "Reading node from beggining of stack, node id:" + std::to_string(front().node->getNodeNumber()));
 	out.push_back(front().node->getNodeNumber());
+
+	LOG("stack", "Removing node from stack.");
 	pop_front();
+
 	LOG("stack", "Data with work contains:" + std::to_string(out.size()) + "elements.");
 	return out;
 }
