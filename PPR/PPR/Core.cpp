@@ -84,6 +84,7 @@ void Core::run()
 	if (processor_ == 0) {
 		MPI_Send(NULL, 0, MPI_CHAR, 1, MSG_WORKING, MPI_COMM_WORLD);
 		int bestSolution = bridge_.getBestResult();
+		LOG("Core", "Inicializuji best_found packet s:" + std::to_string(bestSolution));
 		MPI_Send(&bestSolution, 1, MPI_INT, 1, MSG_BEST_FOUND, MPI_COMM_WORLD);
 	}
 
