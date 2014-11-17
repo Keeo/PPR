@@ -35,7 +35,11 @@ void Bridge::setWork(char* data, int dataLength)
 
 std::vector<int> Bridge::getSolution()
 {
-	return std::vector<int>();
+	std::vector<int> out;
+	for (auto &s : game_.getWinningSequence()) {
+		out.push_back(s.node->getNodeNumber());
+	}
+	return out;
 }
 
 std::vector<int> Bridge::getWork()
@@ -45,12 +49,12 @@ std::vector<int> Bridge::getWork()
 
 int Bridge::getBestResult()
 {
-	return 666;
+	return game_.getBestSolutionsMoves();
 }
 
 void Bridge::setBestResult(int steps)
 {
-
+	game_.setBestSolutionsMoves(steps);
 }
 
 EWORK Bridge::work()

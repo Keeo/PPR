@@ -94,3 +94,22 @@ Stack& Game::getStack()
 	return stack_;
 }
 
+
+void Game::setBestSolutionsMoves(int moves)
+{
+	cmoves_ = moves;
+	steps_.clear();
+}
+
+
+int Game::getBestSolutionsMoves()
+{
+	return cmoves_;
+}
+
+
+std::vector<Step> Game::getWinningSequence()
+{
+	return steps_;
+}
+

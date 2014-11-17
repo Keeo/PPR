@@ -14,7 +14,6 @@ class Game
 	Stack stack_;
 
 	std::vector<Step> steps_;
-
 	unsigned int cmoves_;
 
 public:
@@ -26,8 +25,14 @@ public:
 
 	void save(unsigned int csteps, std::vector<Step> const* steps);
 
+
+
 	void loadWork(std::vector<int> moves);
 	std::vector<int> getWork();
+
+	void setBestSolutionsMoves(int moves);
+	int getBestSolutionsMoves();
+	std::vector<Step> getWinningSequence();
 
 	Graph& getGraph();
 	Board& getBoard();
