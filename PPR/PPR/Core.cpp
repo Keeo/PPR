@@ -13,7 +13,8 @@ Core::Core(std::string datafile)
 
 	LOG("mpi", "Processor:" + std::to_string(processor_) + " cprocessor_" + std::to_string(cprocessor_) + " lastBoeheredPc:" + std::to_string(lastBotheredPc_));
 	waitingForWork_ = false;
-	workSent_ = false;
+	workThisSent_ = false;
+	workLastSent_ = false;
 	jobDone_ = false;
 	initDataLength_ = 0;
 	
@@ -88,6 +89,9 @@ void Core::run()
 	}
 
 	while (!jobDone_) {
+		workLastSent_ = workThisSent_;
+		workThisSent_ = false;
+
 		EWORK status = bridge_.work();
 		handleStatus(status);
 		handleRequests();
@@ -154,7 +158,7 @@ void Core::sendWork(MPI_Status* status)
 	std::vector<int> work = bridge_.getWork();
 
 	if (work.size() > 0) {
-		workSent_ = true;
+		workThisSent_ = true;
 		LOG("mpi", "Sending work to:" + std::to_string(status->MPI_SOURCE) + " size:" + std::to_string(work.size()));
 		MPI_Send(work.data(), work.size(), MPI_INT, status->MPI_SOURCE, MSG_WORK_SENT, MPI_COMM_WORLD);
 	}
@@ -195,10 +199,10 @@ void Core::processMessage(char* message, int messageLength, MPI_Status* status)
 
 		case MSG_WORKING: {
 				bool working = (bool)*message;
-				if (processor_ == 0 && waitingForWork_ == true && workSent_ == false && working == false) {
+				if (processor_ == 0 && waitingForWork_ == true && workThisSent_ == false && workLastSent_ == false  && working == false) {
 					jobDone_ = true;
 				}
-				working |= !(waitingForWork_ == true && workSent_ == false);
+				working |= !(waitingForWork_ == true && workThisSent_ == false && workLastSent_ == false);
 				MPI_Send(&working, 1, MPI_C_BOOL, nextProcessor(processor_), MSG_WORKING, MPI_COMM_WORLD);
 			}
 			break;

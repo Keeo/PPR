@@ -12,7 +12,7 @@ class Core
 	int lastBotheredPc_;
 	int bestResultPc_;
 	bool waitingForWork_;
-	bool workSent_;
+	bool workThisSent_, workLastSent_;
 	bool jobDone_;
 
 
