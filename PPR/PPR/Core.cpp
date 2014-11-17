@@ -95,6 +95,7 @@ void Core::run()
 		EWORK status = bridge_.work();
 		handleStatus(status);
 		handleRequests();
+		LOG("Core", "Loop done workThisSent:" + std::to_string(workThisSent_) + " workLastSent:" + std::to_string(workLastSent_) + " waitingForWork:" + std::to_string(waitingForWork_));
 	}
 }
 
@@ -180,9 +181,6 @@ void Core::processMessage(char* message, int messageLength, MPI_Status* status)
 		case MSG_WORK_SENT:
 			if (messageLength > 0){
 				LOG("mpi", "Prisla prace.");
-				for (int i = 0; i < messageLength; ++i){
-					LOG("MSG_TMP", std::to_string(message[i]));
-				}
 
 				bridge_.setWork(message, messageLength);
 				waitingForWork_ = false;
