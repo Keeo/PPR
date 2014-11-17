@@ -15,7 +15,11 @@ class Board
 
 public:
 
+	void reset();
+
 	void setMove(Node* n);
+
+	void setMove(int node);
 
 	void restoreLastMove(int moves = 1);
 

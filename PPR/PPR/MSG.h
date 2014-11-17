@@ -1,0 +1,15 @@
+#pragma once
+
+enum MSG : int {
+	MSG_WORK_REQUEST,
+	MSG_WORK_SENT,
+	MSG_WORK_NOWORK,
+	
+	MSG_WORKING,
+	MSG_FINISH,
+
+	MSG_BEST_FOUND,
+	MSG_GET_SOLUTION,
+
+	MSG_COUNT,
+};

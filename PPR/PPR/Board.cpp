@@ -12,6 +12,13 @@ Board::~Board()
 }
 
 
+void Board::setMove(int nodeId)
+{
+	Node* node = graph_.getNode(nodeId);
+	setMove(node);
+}
+
+
 void Board::setMove(Node* n)
 {
 	++cmoves_;
@@ -48,6 +55,12 @@ void Board::restoreLastMove(int moves)
 		}
 		--cmoves_;
 	}
+}
+
+
+void Board::reset()
+{
+	restoreLastMove(steps_.size());
 }
 
 

@@ -6,6 +6,8 @@
 #pragma once
 
 #include "Log.h"
+#include "MSG.h"
+#include "EWORK.h"
 
 #include <stdio.h>
 #include <memory>
@@ -15,6 +17,8 @@
 #include <iostream>
 #include <string>
 #include <list>
+
+#include "c:\\Frameworks\mpi.h"
 
 #ifdef _DEBUG
 #define LOG(type, message) Log::getInstance().info(type, message);
