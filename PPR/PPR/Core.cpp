@@ -82,8 +82,7 @@ void Core::distributeInitData()
 void Core::run()
 {
 	if (processor_ == 0) {
-		bool working = true;
-		MPI_Send(&working, 1, MPI_C_BOOL, 1, MSG_WORKING, MPI_COMM_WORLD);
+		MPI_Send(NULL, 0, MPI_CHAR, 1, MSG_WORKING, MPI_COMM_WORLD);
 		int bestSolution = bridge_.getBestResult();
 		MPI_Send(&bestSolution, 1, MPI_INT, 1, MSG_BEST_FOUND, MPI_COMM_WORLD);
 	}
@@ -187,6 +186,7 @@ void Core::processMessage(char* message, int messageLength, MPI_Status* status)
 			}
 			else {
 				LOG("mpi", "Prijata prace byla bez dat.");
+				exit(71);
 			}
 			break;
 
@@ -195,25 +195,22 @@ void Core::processMessage(char* message, int messageLength, MPI_Status* status)
 				MPI_Send(NULL, 0, MPI_CHAR, lastBotheredPc_, MSG_WORK_REQUEST, MPI_COMM_WORLD);
 			break;
 
-		case MSG_WORKING: {
-				bool working = (bool)&message;
-				LOG("core", "Working packet obsahuje:" + std::to_string(working));
-				bool workDone = waitingForWork_ == true && workThisSent_ == false && workLastSent_ == false;
-				if (processor_ == 0 && workDone && working == false) {
-					jobDone_ = true;
-				}
-				
-				if (processor_ == 0) {
-					LOG("core", "Nastavuji working packet na:" + std::to_string(workDone));
-					working = !workDone;
-				}
-				else{
-					working |= !workDone;
-				}
-				
+		case MSG_WORKING:
+			if (processor_ == 0) {
+				MPI_Send(NULL, 0, MPI_CHAR, nextProcessor(processor_), isWorkDone() ? MSG_NOT_WORKING : MSG_WORKING, MPI_COMM_WORLD);
+			}
+			else{
+				MPI_Send(NULL, 0, MPI_CHAR, nextProcessor(processor_), MSG_WORKING, MPI_COMM_WORLD);
+			}
+			break;
 
-
-				MPI_Send(&working, 1, MPI_C_BOOL, nextProcessor(processor_), MSG_WORKING, MPI_COMM_WORLD);
+		case MSG_NOT_WORKING: {
+			if (processor_ == 0) {
+				jobDone_ = true;
+			}
+			else{
+				MPI_Send(NULL, 0, MPI_CHAR, nextProcessor(processor_), isWorkDone() ? MSG_NOT_WORKING : MSG_WORKING, MPI_COMM_WORLD);
+			}
 			}
 			break;
 
@@ -304,3 +301,10 @@ void Core::finalize()
 	}
 	std::cout << "Thank you for working with Reynholm Industries." << std::endl;
 }
+
+
+bool Core::isWorkDone()
+{
+	return waitingForWork_ == true && workThisSent_ == false && workLastSent_ == false;
+}
+

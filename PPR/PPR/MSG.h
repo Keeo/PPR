@@ -8,6 +8,7 @@ enum MSG : int {
 	MSG_WORK_NOWORK,
 	
 	MSG_WORKING,
+	MSG_NOT_WORKING,
 	MSG_FINISH,
 
 	MSG_BEST_FOUND,
@@ -26,6 +27,7 @@ inline const std::string to_string(MSG msg)
 		case MSG_WORK_NOWORK: return "MSG_WORK_NOWORK";
 
 		case MSG_WORKING: return "MSG_WORKING";
+		case MSG_NOT_WORKING: return "MSG_NOT_WORKING";
 		case MSG_FINISH: return "MSG_FINISH";
 
 		case MSG_BEST_FOUND: return "MSG_BEST_FOUND";

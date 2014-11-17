@@ -28,6 +28,8 @@ class Core
 
 	int nextProcessor(int processor);
 	void handleStatus(EWORK ework);
+
+	bool isWorkDone();
 public:
 
 	Core(std::string work);
