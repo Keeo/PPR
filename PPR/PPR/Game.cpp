@@ -67,6 +67,7 @@ void Game::addNextMoves(unsigned int depth)
 void Game::loadWork(std::vector<int> moves)
 {
 	stack_.loadWork(moves, &board_);
+	addNextMoves(board_.getCMoves());
 }
 
 

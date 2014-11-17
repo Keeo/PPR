@@ -187,6 +187,7 @@ void Core::processMessage(char* message, int messageLength, MPI_Status* status, 
 
 		case MSG_WORK_SENT:
 			if (messageLength > 0){
+				LOG("mpi", "Prisla prace");
 				bridge_.setWork(message, messageLength);
 				waitingForWork_ = false;
 			}

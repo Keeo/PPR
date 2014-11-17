@@ -16,6 +16,14 @@ void Bridge::setWork(char* data, int dataLength)
 {
 	int* temp = (int*)data;
 	std::vector<int> moves(temp, temp + dataLength);
+	
+	std::stringstream ss;
+	for (auto &a : moves) {
+		ss << a << " ";
+	}
+
+	LOG("bridge", "Prijata prace obsahuje:" + ss.str());
+
 	game_.loadWork(moves);
 }
 
