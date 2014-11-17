@@ -9,6 +9,7 @@ Log::Log()
 
 void Log::init(int processor)
 {
+	processor_ = processor;
 	std::stringstream ss;
 	ss << time(0);
 	std::string str = ss.str();
@@ -17,7 +18,7 @@ void Log::init(int processor)
 		std::cerr << "[ERR] Log file cant be open!" << std::endl;
 	}
 
-	logFile_ << "[Greetings]" << std::endl << std::endl;
+	logFile_ << "[Greetings][cpu " << processor_ << "]" << std::endl << std::endl;
 	print_ = true;
 }
 
@@ -30,11 +31,8 @@ Log::~Log()
 
 void Log::info(std::string type, std::string message)
 {
-	/*if (type != "stack") return;
-	else logFile_ << message << std::endl;
-	return;*/
-	logFile_ << "[" << type << "] " << message << std::endl;
-	if (print_) std::cout << "[" << type << "] " << message << std::endl;
+	logFile_ << "(" << processor_ << ")[" << type << "] " << message << std::endl;
+	if (print_) std::cout << "(" << processor_ << ")[" << type << "] " << message << std::endl;
 }
 
 

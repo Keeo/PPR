@@ -20,6 +20,7 @@ public:
 	void init(int processor);
 
 private:
+	int processor_= -1;
 	bool print_;
 	std::ofstream logFile_;
 	Log();
