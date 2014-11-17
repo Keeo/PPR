@@ -155,12 +155,8 @@ void Core::sendWork(MPI_Status* status)
 
 	if (work.size() > 0) {
 		workSent_ = true;
-		int byteSize = (work.size() * sizeof(MPI_INT)) / sizeof(MPI_BYTE);
-
-		LOG("mpi", "Sending work to:" + std::to_string(status->MPI_SOURCE) + " byteSize:" + std::to_string(byteSize));
-		LOG("wtf", std::to_string(sizeof(MPI_INT)) + "-" + std::to_string(sizeof(MPI_BYTE)) + "-" + std::to_string(work.size()));
-
-		MPI_Send(work.data(), byteSize, MPI_BYTE, status->MPI_SOURCE, MSG_WORK_SENT, MPI_COMM_WORLD);
+		LOG("mpi", "Sending work to:" + std::to_string(status->MPI_SOURCE) + " size:" + std::to_string(work.size()));
+		MPI_Send(work.data(), work.size(), MPI_INT, status->MPI_SOURCE, MSG_WORK_SENT, MPI_COMM_WORLD);
 	}
 	else {
 		LOG("mpi", "Sending work_nowork to:" + std::to_string(status->MPI_SOURCE));
@@ -180,6 +176,10 @@ void Core::processMessage(char* message, int messageLength, MPI_Status* status)
 		case MSG_WORK_SENT:
 			if (messageLength > 0){
 				LOG("mpi", "Prisla prace.");
+				for (int i = 0; i < messageLength; ++i){
+					LOG("MSG_TMP", std::to_string(message[i]));
+				}
+
 				bridge_.setWork(message, messageLength);
 				waitingForWork_ = false;
 			}

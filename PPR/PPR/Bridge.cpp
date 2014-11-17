@@ -20,6 +20,7 @@ void Bridge::setWork(char* data, int dataLength)
 	std::vector<int> moves;
 	moves.assign(temp, temp + intCount);
 
+	LOG("bridge", "hm" + std::to_string(*temp));
 	LOG("bridge", "Size of dataLength: " + std::to_string(dataLength));
 
 	std::stringstream ss;
