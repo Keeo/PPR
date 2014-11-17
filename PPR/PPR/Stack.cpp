@@ -23,12 +23,14 @@ std::vector<int> Stack::getOneWork(std::vector<Step> const* boardSteps)
 	}
 	LOG("stack", "Forkable: true");
 	
+	LOG("stack", "Board contain: " + std::to_string(boardSteps->size()) + "steps.");
 	for (auto &a : *boardSteps) {
 		if (a.move >= front().move) {
 			break;
 		}
 		out.push_back(a.node->getNodeNumber());
 	}
+	LOG("stack", std::to_string(out.size()) + "steps used as history.");
 
 	out.push_back(front().node->getNodeNumber());
 	pop_front();
