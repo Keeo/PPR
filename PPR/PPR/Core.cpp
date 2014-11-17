@@ -252,7 +252,7 @@ Core::~Core()
 inline int Core::nextProcessor(int processor)
 {
 	int p = (processor + 1) % cprocessor_;
-	return p == processor_ ? (processor_ + 2 % cprocessor_) : p;
+	return p == processor_ ? ((processor_ + 2) % cprocessor_) : p;
 }
 
 
