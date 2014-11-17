@@ -15,7 +15,7 @@ Game::~Game()
 
 EWORK Game::run()
 {
-	//int looper = 20;
+	int looper = 10;
 
 	while (stack_.size() > 0) {
 		LOG("stack", "" + std::to_string(stack_.size()));
@@ -36,9 +36,9 @@ EWORK Game::run()
 			save(board_.getCMoves(), board_.getSteps());
 		}
 		addNextMoves(board_.getCMoves());
-		/*if (--looper == 0) {
+		if (--looper == 0) {
 			break;
-		}*/
+		}
 	}
 
 	return stack_.size() == 0 ? EWORK_OUT_OF_WORK : EWORK_OK;
