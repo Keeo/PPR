@@ -15,7 +15,7 @@ void Bridge::initData(char* data, int dataLength, bool start)
 void Bridge::setWork(char* data, int dataLength)
 {
 	int* temp = (int*)data;
-	int intCount = (dataLength * sizeof(MPI_BYTE)) / sizeof(MPI_INT);
+	int intCount = dataLength / 4;
 	
 	std::vector<int> moves;
 	moves.assign(temp, temp + intCount);
