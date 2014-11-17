@@ -5,10 +5,13 @@
 #include "Board.h"
 #include "Step.h"
 #include "GraphIterator.h"
+#include "Stack.h"
 
 class Game
 {
 	Board board_;
+	
+	Stack stack_;
 
 	std::vector<Step> steps_;
 
@@ -19,7 +22,7 @@ public:
 	~Game();
 
 	void run();
-	void addNextMovesToHistory(std::vector<Step>* history, unsigned int depth);
+	void addNextMoves(unsigned int depth);
 
 	void save(unsigned int csteps, std::vector<Step> const* steps);
 

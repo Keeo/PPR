@@ -15,14 +15,12 @@ Game::~Game()
 
 void Game::run()
 {
-	std::vector<Step> history;
 	unsigned int depth = 0;
-	addNextMovesToHistory(&history, depth);
 	
-	while (history.size() > 0) {
-		LOG("stack", "" + std::to_string(history.size()));
-		Step step = history.back();
-		history.pop_back();
+	while (stack_.size() > 0) {
+		LOG("stack", "" + std::to_string(stack_.size()));
+		Step step = stack_.back();
+		stack_.pop_back();
 
 		if (step.move < depth) {
 			board_.restoreLastMove(depth - step.move);
@@ -35,7 +33,7 @@ void Game::run()
 			save(board_.getCMoves(), board_.getSteps());
 		}
 		++depth;
-		addNextMovesToHistory(&history, depth);
+		addNextMoves(depth);
 	}
 }
 
@@ -49,11 +47,11 @@ void Game::save(unsigned int cmoves, std::vector<Step> const* steps)
 	}
 }
 
-void Game::addNextMovesToHistory(std::vector<Step>* history, unsigned int depth)
+void Game::addNextMoves(unsigned int depth)
 {
 	for (auto node : board_.getGraph().getGraphIterator()) {
 		Step s(&*node, depth);
-		history->push_back(s);
+		stack_.push_back(s);
 	}
 }
 
