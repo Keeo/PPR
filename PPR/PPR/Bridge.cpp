@@ -15,7 +15,7 @@ void Bridge::initData(char* data, int dataLength, bool start)
 void Bridge::setWork(char* data, int dataLength)
 {
 	int* temp = (int*)data;
-	int intCount = dataLength * (sizeof(MPI_CHAR) / sizeof(MPI_INT));
+	int intCount = (dataLength * sizeof(MPI_CHAR)) / sizeof(MPI_INT);
 	std::vector<int> moves(temp, temp + intCount);
 	
 	LOG("bridge", "Size of received work: " + intCount);
