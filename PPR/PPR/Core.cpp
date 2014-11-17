@@ -7,13 +7,15 @@ Core::Core(std::string datafile)
 	MPI_Comm_rank(MPI_COMM_WORLD, &processor_);
 	MPI_Comm_size(MPI_COMM_WORLD, &cprocessor_);
 	lastBotheredPc_ = rand() % cprocessor_;
+	Log::getInstance().init(processor_);
+
 	LOG("mpi", "Processor:" + std::to_string(processor_) + " cprocessor_" + std::to_string(cprocessor_) + " lastBoeheredPc:" + std::to_string(lastBotheredPc_));
 	waitingForWork_ = false;
 	workSent_ = false;
 	jobDone_ = false;
 	initDataLength_ = 0;
 
-	Log::getInstance().init(processor_);
+	
 
 	if (processor_ == 0) {
 		readInitData(datafile);
