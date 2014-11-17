@@ -19,7 +19,7 @@ std::vector<int> Stack::getOneWork(std::vector<Step> const* boardSteps)
 {
 	LOG("stack", "Building one work");
 	std::vector<int> out;
-	if (!isForkable(front())) {
+	if (size() == 0 || !isForkable(front())) {
 		return out;
 	}
 	LOG("stack", "Forkable: true");
