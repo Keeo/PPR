@@ -43,7 +43,7 @@ void Core::readInitData(std::string datafile)
 
 void Core::distributeInitDataSize()
 {
-	int ret = MPI_Bcast(&initDataLength_, 1, MPI_INTEGER, 0, MPI_COMM_WORLD);
+	int ret = MPI_Bcast(&initDataLength_, 1, MPI_INT, 0, MPI_COMM_WORLD);
 
 	if (ret != MPI_SUCCESS) {
 		LOG("mpi", "Distribute size of work failed!");
@@ -80,7 +80,7 @@ void Core::run()
 		bool working = true;
 		MPI_Send(&working, 1, MPI_C_BOOL, 1, MSG_WORKING, MPI_COMM_WORLD);
 		int bestSolution = bridge_.getBestResult();
-		MPI_Send(&bestSolution, 1, MPI_INTEGER, 1, MSG_BEST_FOUND, MPI_COMM_WORLD);
+		MPI_Send(&bestSolution, 1, MPI_INT, 1, MSG_BEST_FOUND, MPI_COMM_WORLD);
 	}
 
 	while (!jobDone_) {
@@ -154,7 +154,7 @@ void Core::sendWorks(std::vector<int>* needWork)
 	for (auto &work : works) {
 		if (work.size() > 0) {
 			workSent = true;
-			MPI_Send(work.data(), work.size(), MPI_INTEGER, needWork->back(), MSG_WORK_SENT, MPI_COMM_WORLD);
+			MPI_Send(work.data(), work.size(), MPI_INT, needWork->back(), MSG_WORK_SENT, MPI_COMM_WORLD);
 		}
 		else {
 			MPI_Send(NULL, 0, MPI_CHAR, needWork->back(), MSG_WORK_NOWORK, MPI_COMM_WORLD);
@@ -204,7 +204,7 @@ void Core::processMessage(char* message, int messageLength, MPI_Status* status, 
 		case MSG_GET_SOLUTION: {
 			if (status->MPI_SOURCE == 0){
 				std::vector<int> solution = bridge_.getSolution();
-				MPI_Send(solution.data(), solution.size(), MPI_INTEGER, status->MPI_SOURCE, MSG_GET_SOLUTION, MPI_COMM_WORLD);
+				MPI_Send(solution.data(), solution.size(), MPI_INT, status->MPI_SOURCE, MSG_GET_SOLUTION, MPI_COMM_WORLD);
 			}
 			else {
 				bestResultPc_ = status->MPI_SOURCE;
@@ -226,7 +226,7 @@ void Core::processMessage(char* message, int messageLength, MPI_Status* status, 
 					bestResultPc_ = processor_;
 				}
 
-				MPI_Send(&networkResult, 1, MPI_INTEGER, nextProcessor(status->MPI_SOURCE), MSG_BEST_FOUND, MPI_COMM_WORLD);
+				MPI_Send(&networkResult, 1, MPI_INT, nextProcessor(status->MPI_SOURCE), MSG_BEST_FOUND, MPI_COMM_WORLD);
 			}
 			break;
 
