@@ -15,9 +15,7 @@ int main(int argc, char* argv[])
 	Core c(argv[1]);
 	c.run();
 	c.finalize();
-	
-	std::cin.get();
-	
+		
 	MPI_Finalize();
 	return 0;
 }

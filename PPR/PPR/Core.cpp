@@ -26,6 +26,10 @@ void Core::readInitData(std::string datafile)
 	t.seekg(0, std::ios::end);
 	initDataLength_ = t.tellg();
 
+	if (initDataLength_ <= 0) {
+		LOG("mpi", "Missing init data!");
+	}
+
 	t.seekg(0, std::ios::beg);
 	initData_ = new char[initDataLength_];
 
