@@ -18,8 +18,8 @@ void Bridge::setWork(char* data, int dataLength)
 	int intCount = (dataLength * sizeof(MPI_BYTE)) / sizeof(MPI_INT);
 	std::vector<int> moves(temp, temp + intCount);
 	
-	LOG("bridge", "Size of dataLength: " + dataLength);
-	LOG("bridge", "Size of received work: " + intCount);
+	LOG("bridge", "Size of dataLength: " + std::to_string(dataLength));
+	LOG("bridge", "Size of received work: " + std::to_string(intCount));
 
 
 	std::stringstream ss;
