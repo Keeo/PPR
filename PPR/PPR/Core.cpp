@@ -111,6 +111,7 @@ void Core::handleStatus(EWORK ework)
 			if (waitingForWork_) break;
 			waitingForWork_ = true;
 			lastBotheredPc_ = nextProcessor(lastBotheredPc_);
+			LOG("mpi", "Dosla prace, sending request to: " + std::to_string(lastBotheredPc_));
 			MPI_Send(NULL, 0, MPI_CHAR, lastBotheredPc_, MSG_WORK_REQUEST, MPI_COMM_WORLD);
 			break;
 		}
@@ -167,6 +168,8 @@ void Core::sendWorks(std::vector<int>* needWork)
 
 void Core::processMessage(char* message, int messageLength, MPI_Status* status, std::vector<int>* needWork)
 {
+	LOG("mpi", "Prisel packet od: " + std::to_string(status->MPI_SOURCE) + " tag:" + to_string((MSG)status->MPI_TAG));
+
 	switch (status->MPI_TAG) {
 		case MSG_WORK_REQUEST:
 				needWork->push_back(status->MPI_SOURCE);
