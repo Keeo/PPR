@@ -36,10 +36,12 @@ void Board::setMove(Node* n)
 
 void Board::restoreLastMove(int moves)
 {
+	LOG("board", "Restoring for:" + std::to_string(moves) + "moves.");
+
 	for (int i = 0; i < moves; ++i) {
 		if (steps_.size() == 0) {
 			LOG("err", "No moves to restore!");
-			return;
+			break;
 		}
 
 		Step* last = &steps_.back();
@@ -60,7 +62,7 @@ void Board::restoreLastMove(int moves)
 
 void Board::reset()
 {
-	restoreLastMove(steps_.size());
+	restoreLastMove(cmoves_);
 }
 
 
