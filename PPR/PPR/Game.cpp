@@ -21,6 +21,8 @@ EWORK Game::run()
 
 	while (stack_.size() > 0) {
 		LOG("stack", "" + std::to_string(stack_.size()));
+		LOG("stack", stack_.getString());
+
 		Step step = stack_.back();
 		stack_.pop_back();
 

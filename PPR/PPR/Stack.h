@@ -20,5 +20,6 @@ public:
 
 	std::vector<int> getWork(std::vector<Step> const* boardSteps);
 	void loadWork(std::vector<int>& moves, Board* b);
+	std::string getString();
 };
 

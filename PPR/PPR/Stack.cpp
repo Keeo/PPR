@@ -60,3 +60,14 @@ void Stack::loadWork(std::vector<int>& moves, Board* board)
 	}
 }
 
+
+std::string Stack::getString()
+{
+	std::stringstream ss;
+	ss << "Values in stack: ";
+	for (auto& i : *this) {
+		ss << "{" << i.node << ", " << i.move << "} ";
+	}
+	return ss.str();
+}
+
