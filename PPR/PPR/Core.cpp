@@ -158,6 +158,7 @@ void Core::sendWork(MPI_Status* status)
 		int byteSize = (work.size() * sizeof(MPI_INT)) / sizeof(MPI_CHAR);
 
 		LOG("mpi", "Sending work to:" + std::to_string(status->MPI_SOURCE) + " byteSize:" + std::to_string(byteSize));
+		LOG("wtf", std::to_string(sizeof(MPI_INT)) + "-" + std::to_string(sizeof(MPI_CHAR)) + "-" + std::to_string(work.size()));
 		MPI_Send(work.data(), byteSize, MPI_CHAR, status->MPI_SOURCE, MSG_WORK_SENT, MPI_COMM_WORLD);
 	}
 	else {
