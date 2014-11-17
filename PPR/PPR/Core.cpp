@@ -134,11 +134,11 @@ void Core::handleRequests()
 	while (true) {
 		MPI_Iprobe(MPI_ANY_SOURCE, MPI_ANY_TAG, MPI_COMM_WORLD, &flag, &status);
 		if (flag) {
-			MPI_Get_count(&status, MPI_CHAR, &messageLength);
+			MPI_Get_count(&status, MPI_BYTE, &messageLength);
 			if (messageLength > MAX_MESSAGE) {
 				LOG("MPI", "Received message longer than allowed");
 			}
-			MPI_Recv(&message, messageLength, MPI_CHAR, MPI_ANY_SOURCE, MPI_ANY_TAG, MPI_COMM_WORLD, &status);
+			MPI_Recv(&message, messageLength, MPI_BYTE, MPI_ANY_SOURCE, MPI_ANY_TAG, MPI_COMM_WORLD, &status);
 			processMessage(message, messageLength, &status);
 		}
 		else {
@@ -155,15 +155,18 @@ void Core::sendWork(MPI_Status* status)
 
 	if (work.size() > 0) {
 		workSent_ = true;
-		int byteSize = (work.size() * sizeof(MPI_INT)) / sizeof(MPI_CHAR);
+		int byteSize = (work.size() * sizeof(MPI_INT)) / sizeof(MPI_BYTE);
 
 		LOG("mpi", "Sending work to:" + std::to_string(status->MPI_SOURCE) + " byteSize:" + std::to_string(byteSize));
-		LOG("wtf", std::to_string(sizeof(MPI_INT)) + "-" + std::to_string(sizeof(MPI_CHAR)) + "-" + std::to_string(work.size()));
-		MPI_Send(work.data(), byteSize, MPI_CHAR, status->MPI_SOURCE, MSG_WORK_SENT, MPI_COMM_WORLD);
+		LOG("wtf", std::to_string(sizeof(MPI_INT)) + "-" + std::to_string(sizeof(MPI_BYTE)) + "-" + std::to_string(work.size()));
+
+
+
+		MPI_Send(work.data(), byteSize, MPI_BYTE, status->MPI_SOURCE, MSG_WORK_SENT, MPI_COMM_WORLD);
 	}
 	else {
 		LOG("mpi", "Sending work_nowork to:" + std::to_string(status->MPI_SOURCE));
-		MPI_Send(NULL, 0, MPI_CHAR, status->MPI_SOURCE, MSG_WORK_NOWORK, MPI_COMM_WORLD);
+		MPI_Send(NULL, 0, MPI_BYTE, status->MPI_SOURCE, MSG_WORK_NOWORK, MPI_COMM_WORLD);
 	}
 }
 
