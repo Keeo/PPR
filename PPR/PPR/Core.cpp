@@ -191,9 +191,7 @@ void Core::processMessage(char* message, int messageLength, MPI_Status* status, 
 				waitingForWork_ = false;
 			}
 			else {
-				LOG("mpi", "Prijata prace byla bez dat. Ptam se dal.");
-				lastBotheredPc_ = nextProcessor(lastBotheredPc_);
-				MPI_Send(NULL, 0, MPI_CHAR, lastBotheredPc_, MSG_WORK_REQUEST, MPI_COMM_WORLD);
+				LOG("mpi", "Prijata prace byla bez dat.");
 			}
 			break;
 
@@ -246,7 +244,7 @@ void Core::processMessage(char* message, int messageLength, MPI_Status* status, 
 					bestResultPc_ = processor_;
 				}
 
-				MPI_Send(&networkResult, 1, MPI_INT, nextProcessor(status->MPI_SOURCE), MSG_BEST_FOUND, MPI_COMM_WORLD);
+				MPI_Send(&networkResult, 1, MPI_INT, nextProcessor(processor_), MSG_BEST_FOUND, MPI_COMM_WORLD);
 			}
 			break;
 
@@ -264,7 +262,8 @@ Core::~Core()
 
 inline int Core::nextProcessor(int processor)
 {
-	return (processor + 1) % cprocessor_;
+	int p = (processor + 1) % cprocessor_;
+	return p == processor_ ? (processor_ + 2 % cprocessor_) : p;
 }
 
 
