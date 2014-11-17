@@ -15,13 +15,16 @@ void Bridge::initData(char* data, int dataLength, bool start)
 void Bridge::setWork(char* data, int dataLength)
 {
 	int* temp = (int*)data;
-	std::vector<int> moves(temp, temp + dataLength);
+	int intCount = dataLength * (sizeof(MPI_CHAR) / sizeof(MPI_INT));
+	std::vector<int> moves(temp, temp + intCount);
 	
+	LOG("bridge", "Size of received work: " + intCount);
+
 	std::stringstream ss;
 	for (auto &a : moves) {
 		ss << a << " ";
 	}
-
+	
 	LOG("bridge", "Prijata prace obsahuje:" + ss.str());
 
 	game_.loadWork(moves);

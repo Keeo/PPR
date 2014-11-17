@@ -38,6 +38,7 @@ void Node::removeFriend(Node* node)
 	}
 	else {
 		LOG("wrn", "Trying to remove non existing node!");
+		exit(66);
 	}
 }
 
