@@ -197,10 +197,20 @@ void Core::processMessage(char* message, int messageLength, MPI_Status* status)
 
 		case MSG_WORKING: {
 				bool working = (bool)*message;
-				if (processor_ == 0 && waitingForWork_ == true && workThisSent_ == false && workLastSent_ == false  && working == false) {
+				bool myWorking = !(waitingForWork_ == true && workThisSent_ == false && workLastSent_ == false && working == false);
+				if (processor_ == 0 && !myWorking) {
 					jobDone_ = true;
 				}
-				working |= !(waitingForWork_ == true && workThisSent_ == false && workLastSent_ == false);
+				
+				if (processor_ == 0) {
+					working = myWorking;
+				}
+				else{
+					working |= myWorking;
+				}
+				
+
+
 				MPI_Send(&working, 1, MPI_C_BOOL, nextProcessor(processor_), MSG_WORKING, MPI_COMM_WORLD);
 			}
 			break;
