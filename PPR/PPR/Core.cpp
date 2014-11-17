@@ -124,7 +124,7 @@ void Core::sendWorks(std::vector<int>* needWork)
 {
 	bool workSent = false;
 
-	std::vector<std::vector<Step>> works = bridge_.getWork(needWork->size());
+	std::vector<std::vector<int>> works = bridge_.getWork(needWork->size());
 	for (auto &work : works) {
 		if (work.size() > 0) {
 			workSent = true;
