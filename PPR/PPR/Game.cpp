@@ -15,20 +15,19 @@ Game::~Game()
 
 EWORK Game::run()
 {
-	unsigned int depth = 0;
-	
 	int looper = 20;
 
 	while (stack_.size() > 0) {
 		LOG("stack", "" + std::to_string(stack_.size()));
 		LOG("stack", stack_.getString());
 
+
+		unsigned int depth = board_.getCMoves();
 		Step step = stack_.back();
 		stack_.pop_back();
 
 		if (step.move < depth) {
 			board_.restoreLastMove(depth - step.move);
-			depth -= depth - step.move;
 		}
 		
 		board_.setMove(step.node);
@@ -36,8 +35,7 @@ EWORK Game::run()
 		if (board_.isWin()){
 			save(board_.getCMoves(), board_.getSteps());
 		}
-		++depth;
-		addNextMoves(depth);
+		addNextMoves(board_.getCMoves());
 		if (--looper == 0) {
 			break;
 		}

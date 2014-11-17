@@ -14,7 +14,6 @@ class Stack : public std::deque<Step>
 
 	bool isForkable(const Step& s);
 
-
 public:
 	void setBreakableDepth(int depth);
 
