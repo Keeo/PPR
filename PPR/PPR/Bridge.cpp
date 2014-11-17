@@ -44,6 +44,7 @@ std::vector<int> Bridge::getSolution()
 		}
 		lastStep = &s;
 	}
+	out.push_back(lastStep->node->getNodeNumber());
 	return out;
 }
 

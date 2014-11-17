@@ -282,10 +282,10 @@ void Core::finalize()
 	}
 
 	int messageLength;
-	int* message;
+	int message[100];
 
 	LOG("Core", "Finalizing solution will provide:" + std::to_string(bestResultPc_));
-	if (bestResultPc_ != 0){
+	if (bestResultPc_ != 0) {
 		LOG("Core", "Asking for best solution.");
 		MPI_Send(NULL, 0, MPI_INT, bestResultPc_, MSG_GET_SOLUTION, MPI_COMM_WORLD);
 
@@ -295,7 +295,6 @@ void Core::finalize()
 		MPI_Get_count(&status, MPI_INT, &messageLength);
 		
 		LOG("Core", "Incoming data size:" + std::to_string(messageLength));
-		message = new int[messageLength];
 		MPI_Recv(&message, messageLength, MPI_INT, bestResultPc_, MSG_GET_SOLUTION, MPI_COMM_WORLD, &status);
 
 		LOG("Core", "Best solution received.");
@@ -303,8 +302,7 @@ void Core::finalize()
 	else{
 		std::vector<int> solution = bridge_.getSolution();
 		messageLength = solution.size();
-		message = new int[messageLength];
-		memcpy(message, solution.data(), sizeof(message));
+		memcpy(message, solution.data(), messageLength * sizeof(int));
 	}
 
 	MPI_Send(NULL, 0, MPI_CHAR, 1, MSG_FINISH, MPI_COMM_WORLD);
