@@ -240,7 +240,7 @@ void Core::processMessage(char* message, int messageLength, MPI_Status* status)
 		case MSG_BEST_FOUND: {
 			int bestResult = bridge_.getBestResult();
 			int networkResult = *(int*)message;
-			LOG("Core", "Best result looping in packet:" + std::to_string(networkResult));
+			LOG("Core", "Best result looping in packet:" + std::to_string(networkResult) + " from pc_:" + std::to_string(bestResultPc_));
 			if (bestResult > networkResult) {
 				bridge_.setBestResult(networkResult);
 				bestResultPc_ = status->MPI_SOURCE;
@@ -283,6 +283,7 @@ void Core::finalize()
 	int messageLength;
 	int* message;
 
+	LOG("Core", "Finalizing solution will provide:" + std::to_string(bestResultPc_));
 	if (bestResultPc_ != 0){
 		MPI_Send(NULL, 0, MPI_INT, bestResultPc_, MSG_GET_SOLUTION, MPI_COMM_WORLD);
 
