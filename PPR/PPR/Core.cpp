@@ -178,7 +178,7 @@ void Core::sendWorks(std::vector<int>* needWork)
 
 void Core::processMessage(char* message, int messageLength, MPI_Status* status, std::vector<int>* needWork)
 {
-	LOG("mpi", "Prisel packet od: " + std::to_string(status->MPI_SOURCE) + " tag:" + to_string((MSG)status->MPI_TAG));
+	LOG("mpi", "Prisel packet od: " + std::to_string(status->MPI_SOURCE) + " tag:" + to_string((MSG)status->MPI_TAG) + " size:" + std::to_string(messageLength));
 
 	switch (status->MPI_TAG) {
 		case MSG_WORK_REQUEST:
@@ -186,8 +186,15 @@ void Core::processMessage(char* message, int messageLength, MPI_Status* status, 
 			break;
 
 		case MSG_WORK_SENT:
+			if (messageLength > 0){
 				bridge_.setWork(message, messageLength);
 				waitingForWork_ = false;
+			}
+			else {
+				LOG("mpi", "Prijata prace byla bez dat. Ptam se dal.");
+				lastBotheredPc_ = nextProcessor(lastBotheredPc_);
+				MPI_Send(NULL, 0, MPI_CHAR, lastBotheredPc_, MSG_WORK_REQUEST, MPI_COMM_WORLD);
+			}
 			break;
 
 		case MSG_WORK_NOWORK:
