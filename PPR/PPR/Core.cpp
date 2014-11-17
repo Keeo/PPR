@@ -196,7 +196,8 @@ void Core::processMessage(char* message, int messageLength, MPI_Status* status)
 			break;
 
 		case MSG_WORKING: {
-				bool working = (bool)*message;
+				bool working = (bool)&message;
+				LOG("core", "Working packet obsahuje:" + std::to_string(working));
 				bool myWorking = !(waitingForWork_ == true && workThisSent_ == false && workLastSent_ == false && working == false);
 				if (processor_ == 0 && !myWorking) {
 					jobDone_ = true;
