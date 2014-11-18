@@ -32,7 +32,7 @@ public:
 
 	void setBestSolutionsMoves(int moves);
 	int getBestSolutionsMoves();
-	std::vector<Step> getWinningSequence();
+	std::vector<int> getWinningSequence();
 
 	Graph& getGraph();
 	Board& getBoard();

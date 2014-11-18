@@ -83,9 +83,11 @@ void Core::run()
 {
 	if (processor_ == 0) {
 		MPI_Send(NULL, 0, MPI_CHAR, 1, MSG_WORKING, MPI_COMM_WORLD);
-		int bestSolution = bridge_.getBestResult();
-		LOG("Core", "Inicializuji best_found packet s:" + std::to_string(bestSolution));
-		MPI_Send(&bestSolution, 1, MPI_INT, 1, MSG_BEST_FOUND, MPI_COMM_WORLD);
+		int out[2];
+		out[0] = bridge_.getBestResult();
+		out[1] = processor_;
+		LOG("Core", "Inicializuji best_found packet s:" + std::to_string(out[0]));
+		MPI_Send(out, 2, MPI_INT, 1, MSG_BEST_FOUND, MPI_COMM_WORLD);
 	}
 
 	while (!jobDone_) {
@@ -248,17 +250,19 @@ void Core::processMessage(char* message, int messageLength, MPI_Status* status)
 		case MSG_BEST_FOUND: {
 			int bestResult = bridge_.getBestResult();
 			int networkResult = *(int*)message;
+			int networkPc = *(((int*)message) + 1);
 			LOG("Core", "Best result looping in packet:" + std::to_string(networkResult) + " from pc_:" + std::to_string(bestResultPc_));
 			if (bestResult > networkResult) {
 				bridge_.setBestResult(networkResult);
-				bestResultPc_ = status->MPI_SOURCE;
+				bestResultPc_ = networkPc;
 			}
 			if (bestResult < networkResult) {
 				networkResult = bestResult;
 				bestResultPc_ = processor_;
+				networkPc = processor_;
 			}
 
-			MPI_Send(&networkResult, 1, MPI_INT, nextProcessor(processor_), MSG_BEST_FOUND, MPI_COMM_WORLD);
+			MPI_Send(&networkResult, 2, MPI_INT, nextProcessor(processor_), MSG_BEST_FOUND, MPI_COMM_WORLD);
 
 			}
 			break;

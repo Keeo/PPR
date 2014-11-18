@@ -34,18 +34,7 @@ void Bridge::setWork(char* data, int dataLength)
 
 std::vector<int> Bridge::getSolution()
 {
-	std::vector<int> out;
-	Step* lastStep = NULL;
-	for (auto &s : game_.getWinningSequence()) {
-		if (lastStep != NULL) {
-			if (lastStep->move < s.move) {
-				out.push_back(lastStep->node->getNodeNumber());
-			}
-		}
-		lastStep = &s;
-	}
-	out.push_back(lastStep->node->getNodeNumber());
-	return out;
+	return game_.getWinningSequence();
 }
 
 std::vector<int> Bridge::getWork()

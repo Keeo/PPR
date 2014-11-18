@@ -108,8 +108,13 @@ int Game::getBestSolutionsMoves()
 }
 
 
-std::vector<Step> Game::getWinningSequence()
+std::vector<int> Game::getWinningSequence()
 {
-	return steps_;
+	std::vector<Step> moves = Board::transformStepsToMove(&steps_);
+	std::vector<int> out;
+	for (auto &i : moves) {
+		out.push_back(i.node->getNodeNumber());
+	}
+	return out;
 }
 

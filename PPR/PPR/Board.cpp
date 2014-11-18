@@ -2,6 +2,36 @@
 #include "Board.h"
 
 
+std::vector<Step> Board::transformStepsToMove(std::vector<Step>* steps)
+{
+	std::vector<Step> out;
+	Step* lastStep = NULL;
+	for (auto &s : *steps) {
+		if (lastStep != NULL) {
+			if (lastStep->move < s.move) {
+				out.push_back(*lastStep);
+			}
+		}
+		lastStep = &s;
+	}
+	out.push_back(*lastStep);
+
+	for (int i = 0; i < out.size(); ++i){
+		if (out.at(i).move != i) {
+			LOG("Board", "Transform step missfunction!");
+			std::stringstream ss;
+			for (auto &a : out) {
+				ss << "{" << a.node->getNodeNumber() << ", " << a.move << "} ";
+			}
+			LOG("Board", "Tranform output" + ss.str());
+			exit(96);
+		}
+	}
+
+	return out;
+}
+
+
 Board::Board()
 {
 }

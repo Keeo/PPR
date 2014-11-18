@@ -12,7 +12,9 @@ std::vector<int> Stack::getWork(std::vector<Step> const* boardSteps)
 	LOG("stack", "Forkable: true");
 	
 	LOG("stack", "Board contain: " + std::to_string(boardSteps->size()) + "steps.");
-	for (auto &a : *boardSteps) {
+	std::vector<Step> cleanupSteps = Board::transformStepsToMove((std::vector<Step>*)boardSteps);
+	LOG("stack", "Cleaned board contain: " + std::to_string(cleanupSteps.size()) + "steps.");
+	for (auto &a : cleanupSteps) {
 		if (a.move >= front().move) {
 			break;
 		}

@@ -31,6 +31,8 @@ public:
 
 	std::vector<Step> const* getSteps();
 
+	static std::vector<Step> transformStepsToMove(std::vector<Step>* step);
+
 	Board();
 	~Board();
 };
