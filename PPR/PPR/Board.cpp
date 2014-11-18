@@ -16,21 +16,23 @@ std::vector<Step> Board::transformStepsToMove(std::vector<Step>* steps)
 	}
 	out.push_back(*lastStep);
 
-	for (int i = 0; i < out.size(); ++i){
+	for (int i = 1; i <= out.size(); ++i){
 		if (out.at(i).move != i) {
 			LOG("Board", "Transform step missfunction!");
-			std::stringstream ss;
-			for (auto &a : out) {
-				ss << "{" << a.node->getNodeNumber() << ", " << a.move << "} ";
+			{
+				std::stringstream ss;
+				for (auto &a : out) {
+					ss << "{" << a.node->getNodeNumber() << ", " << a.move << "} ";
+				}
+				LOG("Board", "Tranform output" + ss.str());
 			}
-			LOG("Board", "Tranform output" + ss.str());
-
-			ss.clear();
-			for (auto &a : *steps) {
-				ss << "{" << a.node->getNodeNumber() << ", " << a.move << "} ";
+			{
+				std::stringstream ss;
+				for (auto &a : *steps) {
+					ss << "{" << a.node->getNodeNumber() << ", " << a.move << "} ";
+				}
+				LOG("Board", "Tranform input" + ss.str());
 			}
-			LOG("Board", "Tranform input" + ss.str());
-
 			exit(96);
 		}
 	}
