@@ -103,7 +103,9 @@ void Core::run()
 void Core::handleStatus(EWORK ework)
 {
 	switch (ework) {
-		case EWORK_OK: break;
+		case EWORK_OK: 
+			break;
+
 		case EWORK_BEST_FOUND: {
 			if (processor_ == 0) {
 				bestResultPc_ = 0;
@@ -112,18 +114,18 @@ void Core::handleStatus(EWORK ework)
 			else {
 				MPI_Send(NULL, 0, MPI_CHAR, 0, MSG_BEST_FOUND, MPI_COMM_WORLD);
 			}
-			break;
 		} 
+		break;
 		
-
 		case EWORK_OUT_OF_WORK: {
-			if (waitingForWork_) break;
-			waitingForWork_ = true;
-			lastBotheredPc_ = nextProcessor(lastBotheredPc_);
-			LOG("mpi", "Dosla prace, sending request to: " + std::to_string(lastBotheredPc_));
-			MPI_Send(NULL, 0, MPI_CHAR, lastBotheredPc_, MSG_WORK_REQUEST, MPI_COMM_WORLD);
-			break;
+			if (!waitingForWork_) {
+				waitingForWork_ = true;
+				lastBotheredPc_ = nextProcessor(lastBotheredPc_);
+				LOG("mpi", "Dosla prace, sending request to: " + std::to_string(lastBotheredPc_));
+				MPI_Send(NULL, 0, MPI_CHAR, lastBotheredPc_, MSG_WORK_REQUEST, MPI_COMM_WORLD);
+			}
 		}
+		break;
 	}
 }
 
@@ -196,6 +198,7 @@ void Core::processMessage(char* message, int messageLength, MPI_Status* status)
 
 		case MSG_WORK_NOWORK:
 				lastBotheredPc_ = nextProcessor(lastBotheredPc_);
+				LOG("Core", "NOWORK preparing another packet for:" + std::to_string(lastBotheredPc_));
 				MPI_Send(NULL, 0, MPI_CHAR, lastBotheredPc_, MSG_WORK_REQUEST, MPI_COMM_WORLD);
 			break;
 
