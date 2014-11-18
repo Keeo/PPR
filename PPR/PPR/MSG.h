@@ -18,7 +18,7 @@ enum MSG : int {
 
 };
 
-inline const std::string to_string(MSG msg)
+inline const std::string msg_to_string(MSG msg)
 {
 	switch (msg)
 	{

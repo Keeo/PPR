@@ -145,7 +145,7 @@ void Core::handleRequests()
 				exit(85);
 			}
 
-			LOG("Core", "Preparing for message from: " + std::to_string(status.MPI_SOURCE) + " tag:" + std::to_string((MSG)status.MPI_TAG));
+			LOG("Core", "Preparing for message from: " + std::to_string(status.MPI_SOURCE) + " tag:" + msg_to_string((MSG)status.MPI_TAG));
 			MPI_Recv(&message, messageLength, MPI_BYTE, MPI_ANY_SOURCE, MPI_ANY_TAG, MPI_COMM_WORLD, &status);
 			processMessage(message, messageLength, &status);
 		}
@@ -174,7 +174,7 @@ void Core::sendWork(MPI_Status* status)
 
 void Core::processMessage(char* message, int messageLength, MPI_Status* status)
 {
-	LOG("mpi", "Prisel packet od: " + std::to_string(status->MPI_SOURCE) + " tag:" + std::to_string((MSG)status->MPI_TAG) + " size:" + std::to_string(messageLength));
+	LOG("mpi", "Prisel packet od: " + std::to_string(status->MPI_SOURCE) + " tag:" + msg_to_string((MSG)status->MPI_TAG) + " size:" + std::to_string(messageLength));
 
 	switch (status->MPI_TAG) {
 		case MSG_WORK_REQUEST:
