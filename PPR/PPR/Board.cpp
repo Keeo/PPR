@@ -24,6 +24,13 @@ std::vector<Step> Board::transformStepsToMove(std::vector<Step>* steps)
 				ss << "{" << a.node->getNodeNumber() << ", " << a.move << "} ";
 			}
 			LOG("Board", "Tranform output" + ss.str());
+
+			ss.clear();
+			for (auto &a : *steps) {
+				ss << "{" << a.node->getNodeNumber() << ", " << a.move << "} ";
+			}
+			LOG("Board", "Tranform input" + ss.str());
+
 			exit(96);
 		}
 	}
