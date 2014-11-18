@@ -143,14 +143,14 @@ void Core::handleRequests()
 	while (true) {
 		MPI_Iprobe(MPI_ANY_SOURCE, MPI_ANY_TAG, MPI_COMM_WORLD, &flag, &status);
 		if (flag) {
-			MPI_Get_count(&status, MPI_BYTE, &messageLength);
+			MPI_Get_count(&status, MPI_CHAR, &messageLength);
 			if (messageLength > MAX_MESSAGE) {
 				LOG("MPI", "Received message longer than allowed");
 				exit(85);
 			}
 
 			LOG("Core", "Preparing for message from: " + std::to_string(status.MPI_SOURCE) + " tag:" + msg_to_string((MSG)status.MPI_TAG));
-			MPI_Recv(&message, messageLength, MPI_BYTE, MPI_ANY_SOURCE, MPI_ANY_TAG, MPI_COMM_WORLD, &status);
+			MPI_Recv(&message, messageLength, MPI_CHAR, MPI_ANY_SOURCE, MPI_ANY_TAG, MPI_COMM_WORLD, &status);
 			processMessage(message, messageLength, &status);
 		}
 		else {

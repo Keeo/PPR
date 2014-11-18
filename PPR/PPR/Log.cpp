@@ -20,6 +20,7 @@ void Log::init(int processor)
 
 	logFile_ << "[Greetings][cpu " << processor_ << "]" << std::endl << std::endl;
 	print_ = true;
+	lastLine = "";
 }
 
 
