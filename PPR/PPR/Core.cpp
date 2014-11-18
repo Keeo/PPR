@@ -249,9 +249,9 @@ void Core::processMessage(char* message, int messageLength, MPI_Status* status)
 
 		case MSG_BEST_FOUND: {
 			int bestResult = bridge_.getBestResult();
-			int networkResult = *(int*)message;
-			int networkPc = *(((int*)message) + 1);
-			LOG("Core", "Best result looping in packet:" + std::to_string(networkResult) + " from pc_:" + std::to_string(bestResultPc_));
+			int& networkResult = *(int*)message;
+			int& networkPc = *(((int*)message) + 1);
+			LOG("Core", "Best result looping in packet:" + std::to_string(networkResult) + " from pc_:" + std::to_string(networkPc));
 			if (bestResult > networkResult) {
 				bridge_.setBestResult(networkResult);
 				bestResultPc_ = networkPc;
