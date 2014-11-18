@@ -16,9 +16,9 @@ std::vector<Step> Board::transformStepsToMove(std::vector<Step>* steps)
 	}
 	out.push_back(*lastStep);
 
-	for (int i = 1; i <= out.size(); ++i){
-		if (out.at(i).move != i) {
-			LOG("Board", "Transform step missfunction!");
+	for (int i = 0; i < out.size(); ++i){
+		if (out.at(i).move != i + 1) {
+			LOG("Board", "Transform step missfunction " + std::to_string(out.at(i).move) + ":vs:" + std::to_string(i + 1)  + "!");
 			{
 				std::stringstream ss;
 				for (auto &a : out) {
