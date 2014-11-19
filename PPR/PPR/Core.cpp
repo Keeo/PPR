@@ -182,7 +182,7 @@ void Core::sendWork(MPI_Status* status)
 		MPI_Send(work.data(), work.size(), MPI_INT, status->MPI_SOURCE, MSG_WORK_SENT, MPI_COMM_WORLD);
 	}
 	else {
-		LOG("mpi", "Sending work_nowork to:" + std::to_string(status->MPI_SOURCE));
+		LOG("mpi", "Sending NOWORK to:" + std::to_string(status->MPI_SOURCE));
 		MPI_Send(NULL, 0, MPI_BYTE, status->MPI_SOURCE, MSG_WORK_NOWORK, MPI_COMM_WORLD);
 	}
 }

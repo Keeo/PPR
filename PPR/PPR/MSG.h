@@ -2,8 +2,9 @@
 
 #include <string>
 
-enum MSG : int {
-	MSG_WORK_REQUEST,
+enum MSG {
+
+	MSG_WORK_REQUEST = 66,
 	MSG_WORK_SENT,
 	MSG_WORK_NOWORK,
 	
