@@ -9,6 +9,10 @@ Core::Core(std::string datafile)
 
 	srand(processor_);
 	lastBotheredPc_ = rand() % cprocessor_;
+	if (lastBotheredPc_ == processor_) {
+		lastBotheredPc_ = nextProcessor(lastBotheredPc_);
+	}
+
 	Log::getInstance().init(processor_);
 
 	LOG("mpi", "Processor:" + std::to_string(processor_) + " cprocessor_" + std::to_string(cprocessor_) + " lastBoeheredPc:" + std::to_string(lastBotheredPc_));
