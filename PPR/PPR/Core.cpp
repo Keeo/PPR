@@ -141,7 +141,14 @@ void Core::handleRequests()
 	MPI_Status status;
 
 	while (true) {
-		MPI_Iprobe(MPI_ANY_SOURCE, MPI_ANY_TAG, MPI_COMM_WORLD, &flag, &status);
+		if (waitingForWork_) {
+			MPI_Probe(MPI_ANY_SOURCE, MPI_ANY_TAG, MPI_COMM_WORLD, &status);
+			flag = true;
+		}
+		else{
+			MPI_Iprobe(MPI_ANY_SOURCE, MPI_ANY_TAG, MPI_COMM_WORLD, &flag, &status);
+		}
+		
 		if (flag) {
 			MPI_Get_count(&status, MPI_CHAR, &messageLength);
 			if (messageLength > MAX_MESSAGE) {
