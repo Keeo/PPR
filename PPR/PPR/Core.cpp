@@ -161,7 +161,7 @@ void Core::handleRequests()
 			}
 
 			LOG("Core", "Preparing for message from: " + std::to_string(status.MPI_SOURCE) + " tag:" + msg_to_string((MSG)status.MPI_TAG) + " size:" + std::to_string(messageLength));
-			MPI_Recv(&message, messageLength, MPI_CHAR, MPI_ANY_SOURCE, MPI_ANY_TAG, MPI_COMM_WORLD, &status);
+			MPI_Recv(&message, messageLength, MPI_CHAR, status.MPI_SOURCE, MPI_ANY_TAG, MPI_COMM_WORLD, &status);
 			processMessage(message, messageLength, &status);
 		}
 		else {
