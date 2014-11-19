@@ -141,7 +141,7 @@ void Core::handleRequests()
 	MPI_Status status;
 
 	while (true) {
-		if (waitingForWork_) {
+		if (isWorkDone()) {
 			MPI_Probe(MPI_ANY_SOURCE, MPI_ANY_TAG, MPI_COMM_WORLD, &status);
 			flag = true;
 		}
