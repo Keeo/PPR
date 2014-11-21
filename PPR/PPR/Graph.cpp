@@ -117,7 +117,7 @@ unsigned int Graph::getWorstPossibleSolution()
 
 unsigned int Graph::getBreakablePoint()
 {
-	return std::max(0, (int)cnodes_ - 17);
+	return std::max(0, (int)cnodes_ - 19);
 }
 
 

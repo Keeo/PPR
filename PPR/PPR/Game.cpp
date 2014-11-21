@@ -45,7 +45,7 @@ EWORK Game::run()
 		}
 		addNextMoves(board_.getCMoves());
 		
-		if (double(std::clock() - start) / CLOCKS_PER_SEC > 0.2) {
+		if (double(std::clock() - start) / CLOCKS_PER_SEC > 0.1) {
 			break;
 		}
 
