@@ -10,7 +10,7 @@ std::vector<int> Stack::getWork(std::vector<Step> const* boardSteps)
 		LOG("Stack", "Work split denied! Size:" + std::to_string(size()) + " isForkable:" + (size() > 0 ? std::to_string(isForkable(front())) : "n/a"));
 		return out;
 	}
-	LOG("stack", "Forkable: true");
+	LOG("stack", "Forkable: true, depth comparasion front.move:" + std::to_string(front().move) + " depthLimit:" + std::to_string(breakableDepth_));
 	
 	LOG("stack", "Board contain: " + std::to_string(boardSteps->size()) + "steps.");
 	std::vector<Step> cleanupSteps = Board::transformStepsToMove((std::vector<Step>*)boardSteps);
