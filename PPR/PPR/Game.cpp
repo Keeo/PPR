@@ -22,7 +22,7 @@ void Game::init()
 
 EWORK Game::run()
 {
-	int looper = 100000;
+	int looper = 1000000;
 	unsigned int start = std::clock();
 
 	while (stack_.size() > 0) {
@@ -48,6 +48,7 @@ EWORK Game::run()
 			break;
 		}
 	}
+
 	Log::getInstance().info("loop", "Time taken in secs : " + std::to_string( double(std::clock() - start) / CLOCKS_PER_SEC ) );
 	return stack_.size() == 0 ? EWORK_OUT_OF_WORK : EWORK_OK;
 }
