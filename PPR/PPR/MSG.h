@@ -15,6 +15,8 @@ enum MSG {
 	MSG_BEST_FOUND,
 	MSG_GET_SOLUTION,
 
+	MSG_STATUS,
+
 	MSG_COUNT,
 
 };
@@ -33,6 +35,8 @@ inline const std::string msg_to_string(MSG msg)
 
 		case MSG_BEST_FOUND: return "MSG_BEST_FOUND";
 		case MSG_GET_SOLUTION: return "MSG_GET_SOLUTION";
+
+		case MSG_STATUS: return "MSG_STATUS";
 
 		case MSG_COUNT: return "MSG_COUNT";
 	}

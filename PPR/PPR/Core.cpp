@@ -86,12 +86,12 @@ void Core::distributeInitData()
 void Core::run()
 {
 	if (processor_ == 0) {
-		MPI_Send(NULL, 0, MPI_CHAR, 1, MSG_WORKING, MPI_COMM_WORLD);
-		int out[2];
+		int out[3];
 		out[0] = bridge_.getBestResult();
 		out[1] = processor_;
-		LOG("Core", "Inicializuji best_found packet s:" + std::to_string(out[0]));
-		MPI_Send(out, 2, MPI_INT, 1, MSG_BEST_FOUND, MPI_COMM_WORLD);
+		out[2] = MSG_WORKING;
+		LOG("Core", "Inicializuji status packet s:" + std::to_string(out[0]));
+		MPI_Send(out, 3, MPI_INT, 1, MSG_STATUS, MPI_COMM_WORLD);
 	}
 
 	while (!jobDone_) {
@@ -210,34 +210,6 @@ void Core::processMessage(char* message, int messageLength, MPI_Status* status)
 				lastBotheredPc_ = nextProcessor(lastBotheredPc_);
 				LOG("Core", "NOWORK preparing another packet for:" + std::to_string(lastBotheredPc_));
 				MPI_Send(NULL, 0, MPI_CHAR, lastBotheredPc_, MSG_WORK_REQUEST, MPI_COMM_WORLD);
-				workLastSent_ = workThisSent_;
-				workThisSent_ = false;
-			break;
-
-		case MSG_WORKING:
-			if (processor_ == 0) {
-				MPI_Send(NULL, 0, MPI_CHAR, nextProcessor(processor_), isWorkDone() ? MSG_NOT_WORKING : MSG_WORKING, MPI_COMM_WORLD);
-			}
-			else{
-				MPI_Send(NULL, 0, MPI_CHAR, nextProcessor(processor_), MSG_WORKING, MPI_COMM_WORLD);
-			}
-			workLastSent_ = workThisSent_;
-			workThisSent_ = false;
-			LOG("Core", "Working packet sent and info moved.");
-			break;
-
-		case MSG_NOT_WORKING: {
-			if (processor_ == 0) {
-				jobDone_ = true;
-			}
-			else{
-				LOG("end", "Sending response for MSG_NOT_WORKING: " + std::to_string(isWorkDone())
-					+ " waiting:" + std::to_string(waitingForWork_) 
-					+ " workThisSent:" + std::to_string(workThisSent_)
-					+ " lastWorkSent:" + std::to_string(workLastSent_));
-				MPI_Send(NULL, 0, MPI_CHAR, nextProcessor(processor_), isWorkDone() ? MSG_NOT_WORKING : MSG_WORKING, MPI_COMM_WORLD);
-			}
-			}
 			break;
 
 		case MSG_FINISH:{
@@ -263,10 +235,11 @@ void Core::processMessage(char* message, int messageLength, MPI_Status* status)
 			}
 			break;
 
-		case MSG_BEST_FOUND: {
+		case MSG_STATUS: {
 			int bestResult = bridge_.getBestResult();
 			int& networkResult = *(int*)message;
 			int& networkPc = *(((int*)message) + 1);
+			int& working = *(((int*)message) + 2);
 			LOG("Core", "Best result looping in packet:" + std::to_string(networkResult) + " from pc_:" + std::to_string(networkPc));
 			if (bestResult > networkResult) {
 				bridge_.setBestResult(networkResult);
@@ -278,10 +251,10 @@ void Core::processMessage(char* message, int messageLength, MPI_Status* status)
 				networkPc = processor_;
 			}
 
-			MPI_Send(&networkResult, 2, MPI_INT, nextProcessor(processor_), MSG_BEST_FOUND, MPI_COMM_WORLD);
-
-			}
-			break;
+			msgWorking(working);
+			LOG("status", "Sending status packet.");
+			MPI_Send(&networkResult, 3, MPI_INT, nextProcessor(processor_), MSG_STATUS, MPI_COMM_WORLD);
+		}
 
 		default:
 			LOG("mpi", "WTF???");
@@ -289,6 +262,25 @@ void Core::processMessage(char* message, int messageLength, MPI_Status* status)
 	}
 }
 
+
+void Core::msgWorking(int& working)
+{
+	if (working == MSG_NOT_WORKING) {
+		if (processor_ == 0) {
+			jobDone_ = true;
+		}
+		else{
+			working = isWorkDone() ? MSG_NOT_WORKING : MSG_WORKING;
+		}
+	}
+	else {
+		if (processor_ == 0) {
+			working = isWorkDone() ? MSG_NOT_WORKING : MSG_WORKING;
+		}
+	}
+	workLastSent_ = workThisSent_;
+	workThisSent_ = false;
+}
 
 Core::~Core()
 {

@@ -30,6 +30,7 @@ class Core
 	void handleStatus(EWORK ework);
 
 	bool isWorkDone();
+	void msgWorking(int& working);
 public:
 
 	Core(std::string work);
