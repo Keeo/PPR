@@ -133,13 +133,13 @@ bool const* Graph::getRemovedNodes()
 }
 
 
-inline unsigned int Graph::getCNodes()
+unsigned int Graph::getCNodes()
 {
 	return cnodes_;
 }
 
 
-inline unsigned int Graph::getCRemovedNodes()
+unsigned int Graph::getCRemovedNodes()
 {
 	return cremoved_nodes_;
 }
