@@ -13,7 +13,7 @@ Node::Node(int node_number)
 }
 
 
-inline void Node::init(int node_number)
+void Node::init(int node_number)
 {
 	node_number_ = node_number;
 }
