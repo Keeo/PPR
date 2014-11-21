@@ -186,7 +186,7 @@ void Core::sendWork(MPI_Status* status)
 
 void Core::processMessage(char* message, int messageLength, MPI_Status* status)
 {
-	LOG("mpi", "Prisel packet od: " + std::to_string(status->MPI_SOURCE) + " tag:" + msg_to_string((MSG)status->MPI_TAG) + " size:" + std::to_string(messageLength));
+	LOG("incoming", "Prisel packet od: " + std::to_string(status->MPI_SOURCE) + " tag:" + msg_to_string((MSG)status->MPI_TAG) + " size:" + std::to_string(messageLength));
 
 	switch (status->MPI_TAG) {
 		case MSG_WORK_REQUEST:
