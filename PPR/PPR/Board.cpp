@@ -16,6 +16,7 @@ std::vector<Step> Board::transformStepsToMove(std::vector<Step>* steps)
 	}
 	out.push_back(*lastStep);
 
+#ifdef _DEBUG
 	for (int i = 0; i < out.size(); ++i){
 		if (out.at(i).move != i + 1) {
 			LOG("Board", "Transform step missfunction " + std::to_string(out.at(i).move) + ":vs:" + std::to_string(i + 1)  + "!");
@@ -36,7 +37,7 @@ std::vector<Step> Board::transformStepsToMove(std::vector<Step>* steps)
 			exit(96);
 		}
 	}
-
+#endif
 	return out;
 }
 
@@ -124,6 +125,7 @@ bool Board::isWin()
 	}
 	else {
 		bool win = !!(cmoves_ % 2);
+#ifdef _DEBUG
 		if (win) {
 			std::stringstream ss;
 			for (auto &n : steps_) {
@@ -131,6 +133,7 @@ bool Board::isWin()
 			}
 			LOG("steps", ss.str());
 		}
+#endif
 		return win;
 	}
 }
