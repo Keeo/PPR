@@ -27,8 +27,8 @@ public:
 	void print();
 
 	Node* getNode(int node_number);
-	unsigned int getCNodes();
-	unsigned int getCRemovedNodes();
+	const unsigned int& getCNodes();
+	const unsigned int& getCRemovedNodes();
 	GraphIterator getGraphIterator();
 
 	unsigned int getBestPossibleSolution();
