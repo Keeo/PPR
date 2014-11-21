@@ -22,28 +22,35 @@ std::vector<int> Stack::getWork(std::vector<Step> const* boardSteps)
 		out.push_back(a.node->getNodeNumber());
 	}
 	LOG("stack", std::to_string(out.size()) + "steps used as history.");
+	
 
-	LOG("stack", "Reading node from beggining of stack, node id:" + std::to_string(front().node->getNodeNumber()));
-	out.push_back(front().node->getNodeNumber());
-
-	LOG("stack", "Removing node from stack.");
-	pop_front();
+	out.push_back(-1);
+	int half = getNumberOfRootNodes() / 2;
+	for (int i = 0; i < half; ++i) {
+		LOG("stack", "Reading node from beggining of stack, node id:" + std::to_string(front().node->getNodeNumber()));
+		out.push_back(front().node->getNodeNumber());
+		LOG("stack", "Removing node from stack.");
+		pop_front();
+	}
+	
 
 	LOG("stack", "Data with work contains:" + std::to_string(out.size()) + "elements.");
 	return out;
 }
 
 
-int Stack::getcForkable()
+int Stack::getNumberOfRootNodes()
 {
 	int ret = 0;
-	for (auto i = begin(); i != end(); ++i) {
-		if (isForkable(*i)) {
-			++ret;
+	int root = -1;
+	for (auto &i : *this) {
+		if (root == -1) {
+			root = i.move;
 		}
-		else {
+		if (root != i.move) {
 			break;
 		}
+		++ret;
 	}
 	return ret;
 }
@@ -58,8 +65,20 @@ bool Stack::isForkable(const Step& step)
 void Stack::loadWork(std::vector<int>& moves, Board* board)
 {
 	board->reset();
+	bool history = true;
 	for (auto &i : moves) {
-		board->setMove(i);
+		if (history && i == -1) {
+			history = false;
+			continue;
+		}
+
+		if (history) {
+			board->setMove(i);
+		}
+		else {
+			Step step(board->getGraph().getNode(i), board->getCMoves());
+			push_back(step);
+		}
 	}
 }
 

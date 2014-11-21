@@ -10,7 +10,7 @@ class Stack : public std::deque<Step>
 {
 	int breakableDepth_ = INT_MAX;
 
-	int getcForkable();
+	int getNumberOfRootNodes();
 
 	bool isForkable(const Step& s);
 
