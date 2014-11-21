@@ -65,7 +65,7 @@ void Game::save(unsigned int cmoves, std::vector<Step> const* steps)
 void Game::addNextMoves(unsigned int depth)
 {
 	for (auto node : board_.getGraph().getGraphIterator()) {
-		Step s(&*node, depth);
+		Step s(node, depth);
 		stack_.push_back(s);
 	}
 }
@@ -73,7 +73,7 @@ void Game::addNextMoves(unsigned int depth)
 void Game::addNextMoves(unsigned int depth)
 {
 	for (auto node : board_.getGraph().getGraphIterator()) {
-		Step s(&*node, depth);
+		Step s(node, depth);
 		stack_.push_back(s);
 	}
 }

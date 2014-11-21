@@ -41,7 +41,7 @@ std::vector<Step> Board::transformStepsToMove(std::vector<Step>* steps)
 }
 
 
-Board::Board()
+Board::Board() : cmoves_(0)
 {
 }
 
