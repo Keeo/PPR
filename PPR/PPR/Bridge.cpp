@@ -22,12 +22,12 @@ void Bridge::setWork(char* data, int dataLength)
 	moves.assign(temp, temp + intCount);
 
 	LOG("bridge", "Size of dataLength: " + std::to_string(dataLength));
-
+#ifdef _DEBUG
 	std::stringstream ss;
 	for (auto &a : moves) {
 		ss << a << " ";
 	}
-	
+#endif
 	LOG("bridge", "Prijata prace obsahuje: " + ss.str());
 
 	game_.loadWork(moves);

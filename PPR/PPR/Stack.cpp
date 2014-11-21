@@ -82,7 +82,11 @@ void Stack::loadWork(std::vector<int>& moves, Board* board)
 			push_back(step);
 		}
 	}
+
+	Step step = back();
+	pop_back();
 	
+	board->setMove(step.node);
 }
 
 

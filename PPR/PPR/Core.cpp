@@ -254,7 +254,8 @@ void Core::processMessage(char* message, int messageLength, MPI_Status* status)
 			msgWorking(working);
 			LOG("status", "Sending status packet.");
 			MPI_Send(&networkResult, 3, MPI_INT, nextProcessor(processor_), MSG_STATUS, MPI_COMM_WORLD);
-		}
+			}
+			break;
 
 		default:
 			LOG("mpi", "WTF???");
