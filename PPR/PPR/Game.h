@@ -1,5 +1,7 @@
 #pragma once
 
+#include <ctime>
+
 #include "Node.h"
 #include "Graph.h"
 #include "Board.h"
