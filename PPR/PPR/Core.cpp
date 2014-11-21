@@ -7,11 +7,7 @@ Core::Core(std::string datafile)
 	MPI_Comm_rank(MPI_COMM_WORLD, &processor_);
 	MPI_Comm_size(MPI_COMM_WORLD, &cprocessor_);
 
-	srand(processor_);
-	lastBotheredPc_ = rand() % cprocessor_;
-	if (lastBotheredPc_ == processor_) {
-		lastBotheredPc_ = nextProcessor(lastBotheredPc_);
-	}
+	lastBotheredPc_ = nextProcessor(processor_);
 
 	Log::getInstance().init(processor_);
 
