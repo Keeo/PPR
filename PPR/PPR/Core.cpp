@@ -95,9 +95,6 @@ void Core::run()
 	}
 
 	while (!jobDone_) {
-		workLastSent_ = workThisSent_;
-		workThisSent_ = false;
-
 		EWORK status = bridge_.work();
 		handleStatus(status);
 		handleRequests();
@@ -222,7 +219,9 @@ void Core::processMessage(char* message, int messageLength, MPI_Status* status)
 			else{
 				MPI_Send(NULL, 0, MPI_CHAR, nextProcessor(processor_), MSG_WORKING, MPI_COMM_WORLD);
 			}
-			LOG("Core", "Working packet sent.");
+			workLastSent_ = workThisSent_;
+			workThisSent_ = false;
+			LOG("Core", "Working packet sent and info moved.");
 			break;
 
 		case MSG_NOT_WORKING: {
