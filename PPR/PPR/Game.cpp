@@ -22,7 +22,7 @@ void Game::init()
 
 EWORK Game::run()
 {
-	int looper = 2000;
+	int looper = 20000;
 
 	while (stack_.size() > 0) {
 		LOG("stack", "" + std::to_string(stack_.size()));
