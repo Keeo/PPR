@@ -73,13 +73,16 @@ void Stack::loadWork(std::vector<int>& moves, Board* board)
 		}
 
 		if (history) {
+			LOG("stack", "hraji krok:" + std::to_string(i));
 			board->setMove(i);
 		}
 		else {
+			LOG("stack", "pripravuji krok:" + std::to_string(i));
 			Step step(board->getGraph().getNode(i), board->getCMoves());
 			push_back(step);
 		}
 	}
+	
 }
 
 

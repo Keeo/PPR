@@ -23,6 +23,8 @@ void Game::init()
 EWORK Game::run()
 {
 	unsigned int start = std::clock();
+	int looper = 10;
+
 	while (stack_.size() > 0) {
 		LOG("stack", "" + std::to_string(stack_.size()));
 		LOG("stack", stack_.getString());
@@ -42,7 +44,12 @@ EWORK Game::run()
 			save(board_.getCMoves(), board_.getSteps());
 		}
 		addNextMoves(board_.getCMoves());
+		
 		if (double(std::clock() - start) > 0.2) {
+			break;
+		}
+
+		if (--looper == 0) {
 			break;
 		}
 

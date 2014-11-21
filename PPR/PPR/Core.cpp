@@ -198,7 +198,7 @@ void Core::processMessage(char* message, int messageLength, MPI_Status* status)
 				waitingForWork_ = false;
 				double time = double(std::clock() - waitingForworkClock_) / CLOCKS_PER_SEC;
 				waitingClockVector_.push_back(time);
-				Log::getInstance().info("loop", "Waiting for work :" + std::to_string(time));
+				Log::getInstance().info("loop", "Waited for work :" + std::to_string(time));
 			}
 			else {
 				LOG("mpi", "Prijata prace byla bez dat.");
