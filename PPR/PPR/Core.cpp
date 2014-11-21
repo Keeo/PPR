@@ -119,9 +119,7 @@ void Core::handleStatus(EWORK ework)
 		case EWORK_OUT_OF_WORK: {
 			if (!waitingForWork_) {
 				waitingForWork_ = true;
-				if (waitingForworkClock_ == 0) {
-					waitingForworkClock_ = std::clock();
-				}
+				waitingForworkClock_ = std::clock();
 				lastBotheredPc_ = nextProcessor(lastBotheredPc_);
 				LOG("mpi", "Dosla prace, sending request to: " + std::to_string(lastBotheredPc_));
 				MPI_Send(NULL, 0, MPI_CHAR, lastBotheredPc_, MSG_WORK_REQUEST, MPI_COMM_WORLD);
@@ -198,7 +196,9 @@ void Core::processMessage(char* message, int messageLength, MPI_Status* status)
 
 				bridge_.setWork(message, messageLength);
 				waitingForWork_ = false;
-				Log::getInstance().info("loop", "Waiting for work :" + std::to_string((double(std::clock() - waitingForworkClock_) / CLOCKS_PER_SEC)));
+				unsigned int time = double(std::clock() - waitingForworkClock_) / CLOCKS_PER_SEC;
+				waitingClockVector_.push_back(time);
+				Log::getInstance().info("loop", "Waiting for work :" + std::to_string(time));
 			}
 			else {
 				LOG("mpi", "Prijata prace byla bez dat.");
@@ -296,6 +296,12 @@ inline int Core::nextProcessor(int processor)
 
 void Core::finalize()
 {
+	unsigned int sum = 0;
+	for (auto &t : waitingClockVector_) {
+		sum += t;
+	}
+	Log::getInstance().info("loop", "Total waisted time:" + std::to_string(sum));
+
 	if (processor_ != 0) {
 		return;
 	}

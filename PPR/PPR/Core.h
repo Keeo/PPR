@@ -13,6 +13,7 @@ class Core
 	int bestResultPc_;
 	bool waitingForWork_;
 	unsigned int waitingForworkClock_;
+	std::vector<unsigned int> waitingClockVector_;
 	bool workThisSent_, workLastSent_;
 	bool jobDone_;
 
