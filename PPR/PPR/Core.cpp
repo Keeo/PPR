@@ -230,6 +230,10 @@ void Core::processMessage(char* message, int messageLength, MPI_Status* status)
 				jobDone_ = true;
 			}
 			else{
+				LOG("end", "Sending response for MSG_NOT_WORKING: " + std::to_string(isWorkDone())
+					+ " waiting:" + std::to_string(waitingForWork_) 
+					+ " workThisSent:" + std::to_string(workThisSent_)
+					+ " lastWorkSent:" + std::to_string(workLastSent_));
 				MPI_Send(NULL, 0, MPI_CHAR, nextProcessor(processor_), isWorkDone() ? MSG_NOT_WORKING : MSG_WORKING, MPI_COMM_WORLD);
 			}
 			}
