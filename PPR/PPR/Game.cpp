@@ -22,10 +22,7 @@ void Game::init()
 
 EWORK Game::run()
 {
-	int looper = 500000;
-#ifdef _DEBUG
 	unsigned int start = std::clock();
-#endif
 	while (stack_.size() > 0) {
 		LOG("stack", "" + std::to_string(stack_.size()));
 		LOG("stack", stack_.getString());
@@ -45,9 +42,10 @@ EWORK Game::run()
 			save(board_.getCMoves(), board_.getSteps());
 		}
 		addNextMoves(board_.getCMoves());
-		if (--looper == 0) {
+		if (double(std::clock() - start) > 0.2) {
 			break;
 		}
+
 	}
 	LOG("loop", "Time taken in secs : " + std::to_string(double(std::clock() - start) / CLOCKS_PER_SEC));
 	return stack_.size() == 0 ? EWORK_OUT_OF_WORK : EWORK_OK;
