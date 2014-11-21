@@ -31,7 +31,7 @@ Log::~Log()
 
 void Log::info(std::string type, std::string message)
 {
-	if ("incoming" != type && type != "loop") return;
+	//if ("incoming" != type && type != "loop") return;
 
 	logFile_ << "(" << processor_ << ")[" << type << "] " << message << std::endl;
 	if (print_) std::cout << "(" << processor_ << ")[" << type << "] " << message << std::endl;
