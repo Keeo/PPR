@@ -61,7 +61,7 @@ void Game::save(unsigned int cmoves, std::vector<Step> const* steps)
 	}
 }
 
-
+#ifdef _DEBUG
 void Game::addNextMoves(unsigned int depth)
 {
 	for (auto node : board_.getGraph().getGraphIterator()) {
@@ -69,6 +69,15 @@ void Game::addNextMoves(unsigned int depth)
 		stack_.push_back(s);
 	}
 }
+#else
+void Game::addNextMoves(unsigned int depth)
+{
+	for (auto node : board_.getGraph().getGraphIterator()) {
+		Step s(&*node, depth);
+		stack_.push_back(s);
+	}
+}
+#endif
 
 
 void Game::loadWork(std::vector<int> moves)
