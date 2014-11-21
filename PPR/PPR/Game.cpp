@@ -22,7 +22,7 @@ void Game::init()
 
 EWORK Game::run()
 {
-	int looper = 1000000;
+	int looper = 500000;
 #ifdef _DEBUG
 	unsigned int start = std::clock();
 #endif

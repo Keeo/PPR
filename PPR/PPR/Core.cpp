@@ -8,7 +8,7 @@ Core::Core(std::string datafile)
 	MPI_Comm_size(MPI_COMM_WORLD, &cprocessor_);
 
 	lastBotheredPc_ = nextProcessor(processor_);
-
+	waitingForworkClock_ = 0;
 	Log::getInstance().init(processor_);
 
 	LOG("mpi", "Processor:" + std::to_string(processor_) + " cprocessor_" + std::to_string(cprocessor_) + " lastBoeheredPc:" + std::to_string(lastBotheredPc_));
@@ -119,7 +119,9 @@ void Core::handleStatus(EWORK ework)
 		case EWORK_OUT_OF_WORK: {
 			if (!waitingForWork_) {
 				waitingForWork_ = true;
-				waitingForworkClock_ = std::clock();
+				if (waitingForworkClock_ == 0) {
+					waitingForworkClock_ = std::clock();
+				}
 				lastBotheredPc_ = nextProcessor(lastBotheredPc_);
 				LOG("mpi", "Dosla prace, sending request to: " + std::to_string(lastBotheredPc_));
 				MPI_Send(NULL, 0, MPI_CHAR, lastBotheredPc_, MSG_WORK_REQUEST, MPI_COMM_WORLD);
