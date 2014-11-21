@@ -26,7 +26,7 @@ std::vector<int> Stack::getWork(std::vector<Step> const* boardSteps)
 
 	out.push_back(-1);
 	int half = getNumberOfRootNodes() / 2;
-	for (int i = 0; i < half; ++i) {
+	for (int i = 0; i <= half; ++i) {
 		LOG("stack", "Reading node from beggining of stack, node id:" + std::to_string(front().node->getNodeNumber()));
 		out.push_back(front().node->getNodeNumber());
 		LOG("stack", "Removing node from stack.");
