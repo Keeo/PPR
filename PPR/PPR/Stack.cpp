@@ -73,3 +73,10 @@ std::string Stack::getString()
 	return ss.str();
 }
 
+
+void Stack::setBreakableDepth(int depth)
+{
+	LOG("Stack", "Setting breakable depth: " + std::to_string(depth));
+	breakableDepth_ = depth;
+}
+

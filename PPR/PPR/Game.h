@@ -20,6 +20,7 @@ public:
 	Game();
 	~Game();
 
+	void init();
 	EWORK run();
 	void addNextMoves(unsigned int depth);
 

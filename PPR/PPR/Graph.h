@@ -12,6 +12,8 @@ class Graph
 	unsigned int cnodes_;
 	unsigned int cremoved_nodes_;
 
+	unsigned int getAverageDegree();
+
 public:
 	Graph();
 	~Graph();
@@ -28,5 +30,9 @@ public:
 	unsigned int getCNodes();
 	unsigned int getCRemovedNodes();
 	GraphIterator getGraphIterator();
+
+	unsigned int getBestPossibleSolution();
+	unsigned int getWorstPossibleSolution();
+	unsigned int getBreakablePoint();
 };
 

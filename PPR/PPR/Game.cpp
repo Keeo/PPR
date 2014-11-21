@@ -13,6 +13,13 @@ Game::~Game()
 }
 
 
+void Game::init()
+{
+	unsigned int bp = board_.getGraph().getBreakablePoint();
+	stack_.setBreakableDepth(bp);
+}
+
+
 EWORK Game::run()
 {
 	int looper = 10;

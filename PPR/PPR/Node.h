@@ -6,6 +6,7 @@ class Node
 {
 	int node_number_ = -1;
 	std::vector<Node*> friends_;
+	unsigned int cfriends_;
 
 public:
 	Node();
@@ -23,6 +24,8 @@ public:
 	void removeFriend(Node* node);
 	void removeMyselfFromFriends();
 	
+	unsigned int getCFriends();
+
 	// Content of vector will change based on called methods.
 	std::vector<Node*>* getFriends();
 	

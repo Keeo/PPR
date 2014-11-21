@@ -27,6 +27,7 @@ Node::~Node()
 void Node::addFriend(Node* node)
 {
 	friends_.push_back(node);
+	++cfriends_;
 }
 
 
@@ -79,5 +80,11 @@ void Node::addMyselfToFriends()
 	for (auto &i : friends_) {
 		i->addFriend(this);
 	}
+}
+
+
+unsigned int Node::getCFriends()
+{
+	return cfriends_;
 }
 

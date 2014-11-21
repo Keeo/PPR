@@ -91,6 +91,34 @@ void Graph::restoreNode(Node* node)
 }
 
 
+unsigned int Graph::getAverageDegree()
+{
+	int k = 0;
+	for (unsigned int i = 0; i < cnodes_; ++i) {
+		k += nodes_[i].getCFriends();
+	}
+	return k / cnodes_;
+}
+
+
+unsigned int Graph::getBestPossibleSolution()
+{
+	return cnodes_ / (getAverageDegree() + 1);
+}
+
+
+unsigned int Graph::getWorstPossibleSolution()
+{
+	return cnodes_ - getAverageDegree();
+}
+
+
+unsigned int Graph::getBreakablePoint()
+{
+	return std::max(0, (int)cnodes_ - 5);
+}
+
+
 Node* Graph::getNode(int node_number)
 {
 	return &nodes_[node_number];
