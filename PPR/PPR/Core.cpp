@@ -210,6 +210,8 @@ void Core::processMessage(char* message, int messageLength, MPI_Status* status)
 				lastBotheredPc_ = nextProcessor(lastBotheredPc_);
 				LOG("Core", "NOWORK preparing another packet for:" + std::to_string(lastBotheredPc_));
 				MPI_Send(NULL, 0, MPI_CHAR, lastBotheredPc_, MSG_WORK_REQUEST, MPI_COMM_WORLD);
+				workLastSent_ = workThisSent_;
+				workThisSent_ = false;
 			break;
 
 		case MSG_WORKING:
