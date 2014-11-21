@@ -119,6 +119,7 @@ void Core::handleStatus(EWORK ework)
 		case EWORK_OUT_OF_WORK: {
 			if (!waitingForWork_) {
 				waitingForWork_ = true;
+				waitingForworkClock_ = std::clock();
 				lastBotheredPc_ = nextProcessor(lastBotheredPc_);
 				LOG("mpi", "Dosla prace, sending request to: " + std::to_string(lastBotheredPc_));
 				MPI_Send(NULL, 0, MPI_CHAR, lastBotheredPc_, MSG_WORK_REQUEST, MPI_COMM_WORLD);
@@ -195,6 +196,7 @@ void Core::processMessage(char* message, int messageLength, MPI_Status* status)
 
 				bridge_.setWork(message, messageLength);
 				waitingForWork_ = false;
+				Log::getInstance().info("loop", "Waiting for work :" + std::to_string((double(std::clock() - waitingForworkClock_) / CLOCKS_PER_SEC)));
 			}
 			else {
 				LOG("mpi", "Prijata prace byla bez dat.");

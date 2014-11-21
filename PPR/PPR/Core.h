@@ -12,6 +12,7 @@ class Core
 	int lastBotheredPc_;
 	int bestResultPc_;
 	bool waitingForWork_;
+	unsigned int waitingForworkClock_;
 	bool workThisSent_, workLastSent_;
 	bool jobDone_;
 
