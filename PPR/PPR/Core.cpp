@@ -196,7 +196,7 @@ void Core::processMessage(char* message, int messageLength, MPI_Status* status)
 
 				bridge_.setWork(message, messageLength);
 				waitingForWork_ = false;
-				unsigned int time = double(std::clock() - waitingForworkClock_) / CLOCKS_PER_SEC;
+				double time = double(std::clock() - waitingForworkClock_) / CLOCKS_PER_SEC;
 				waitingClockVector_.push_back(time);
 				Log::getInstance().info("loop", "Waiting for work :" + std::to_string(time));
 			}
@@ -296,7 +296,7 @@ inline int Core::nextProcessor(int processor)
 
 void Core::finalize()
 {
-	unsigned int sum = 0;
+	double sum = 0;
 	for (auto &t : waitingClockVector_) {
 		sum += t;
 	}
