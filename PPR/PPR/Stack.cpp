@@ -7,7 +7,7 @@ std::vector<int> Stack::getWork(std::vector<Step> const* boardSteps)
 	LOG("stack", "Building one work");
 	std::vector<int> out;
 	if (size() == 0 || !isForkable(front())) {
-		LOG("Stack", "Work split denied! Size:" + std::to_string(size()) + " isForkable:" + std::to_string(isForkable(front())));
+		LOG("Stack", "Work split denied! Size:" + std::to_string(size()) + " isForkable:" + (size() > 0 ? std::to_string(isForkable(front())) : "n/a"));
 		return out;
 	}
 	LOG("stack", "Forkable: true");
