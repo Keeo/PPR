@@ -43,6 +43,7 @@ void Graph::load(std::istream* stream)
 
 void Graph::print()
 {
+#ifdef _DEBUG
 	LOG("inf", "Printing nodes...");
 	LOG("inf", "Nodes count: " + std::to_string(cnodes_));
 	for (unsigned int i = 0; i < cnodes_; ++i) {
@@ -60,6 +61,7 @@ void Graph::print()
 		LOG("node", ss.str());
 	}
 	LOG("inf", "Nodes printed");
+#endif
 }
 
 
