@@ -23,7 +23,7 @@ void Game::init()
 EWORK Game::run()
 {
 	unsigned int start = std::clock();
-	int looper = 10;
+	int looper = 10000;
 
 	while (stack_.size() > 0) {
 		LOG("stack", "" + std::to_string(stack_.size()));
