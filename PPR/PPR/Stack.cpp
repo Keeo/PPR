@@ -17,7 +17,7 @@ std::vector<int> Stack::getWork(std::vector<Step> const* boardSteps)
 	std::vector<Step> cleanupSteps = Board::transformStepsToMove((std::vector<Step>*)boardSteps);
 	LOG("stack", "Cleaned board contain: " + std::to_string(cleanupSteps.size()) + "steps.");
 	for (auto &a : cleanupSteps) {
-		if (a.move >= front().move) {
+		if (a.move > front().move) {
 			break;
 		}
 		out.push_back(a.node->getNodeNumber());
