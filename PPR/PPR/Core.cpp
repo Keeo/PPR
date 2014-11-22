@@ -338,9 +338,8 @@ void Core::finalize()
 	for (int i = 0; i < messageLength; ++i) {
 		ss << std::to_string(message[i]) << ", ";
 	}
-	LOG("WIN", ss.str());
-	std::cout << ss.str() << std::endl;
-	std::cout << "Thank you for working with Reynholm Industries." << std::endl;
+	Log::getInstance().info("WIN", ss.str());
+	Log::getInstance().info("WIN", "Thank you for working with Reynholm Industries.");
 }
 
 
