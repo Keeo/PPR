@@ -21,8 +21,11 @@ GraphIterator& GraphIterator::operator++()
 GraphIterator GraphIterator::begin()
 {
 	unsigned int pos;
-	for (pos = 0; pos < graph_->getCNodes(); ++pos) {
-		if (!graph_->getRemovedNodes()[pos]){
+	unsigned int cnodes = graph_->getCNodes();
+	const bool* removedNodes = graph_->getRemovedNodes();
+
+	for (pos = 0; pos < cnodes; ++pos) {
+		if (!removedNodes[pos]){
 			break;
 		}
 	}
