@@ -18,7 +18,7 @@
 #include <string>
 #include <list>
 
-#include "c:\\Frameworks\mpi.h"
+#include "mpi.h"
 
 #ifdef _DEBUG
 #define LOG(type, message) Log::getInstance().info(type, message);
