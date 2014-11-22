@@ -120,7 +120,8 @@ Graph& Board::getGraph()
 
 bool Board::isWin()
 {
-	if (graph_.getCNodes() != graph_.getCRemovedNodes()) {
+	if (!graph_.allRemoved()) {
+	//if (graph_.getCNodes() != graph_.getCRemovedNodes()) {
 		return false;
 	}
 	else {

@@ -31,6 +31,8 @@ public:
 	const unsigned int& getCRemovedNodes();
 	GraphIterator getGraphIterator();
 
+	bool allRemoved();
+
 	unsigned int getBestPossibleSolution();
 	unsigned int getWorstPossibleSolution();
 	unsigned int getBreakablePoint();

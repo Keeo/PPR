@@ -150,3 +150,9 @@ GraphIterator Graph::getGraphIterator()
 	return GraphIterator(this);
 }
 
+
+bool Graph::allRemoved()
+{
+	return cnodes_ == cremoved_nodes_;
+}
+
