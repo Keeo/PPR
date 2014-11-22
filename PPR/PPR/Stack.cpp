@@ -39,6 +39,13 @@ std::vector<int> Stack::getWork(std::vector<Step> const* boardSteps)
 	}
 	
 	Log::getInstance().info("WORK_SENT_E", getString());
+	std::stringstream ss;
+	ss << "data: ";
+	for (auto &a : out) {
+		ss << a << ", ";
+	}
+	Log::getInstance().info("WORK_SENT_D", ss.str());
+
 	LOG("stack", "Data with work contains:" + std::to_string(out.size()) + "elements.");
 	return out;
 }
