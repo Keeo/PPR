@@ -21,14 +21,14 @@ void Bridge::setWork(char* data, int dataLength)
 	std::vector<int> moves;
 	moves.assign(temp, temp + intCount);
 
+#ifdef _DEBUG
 	LOG("bridge", "Size of dataLength: " + std::to_string(dataLength));
 	std::stringstream ss;
 	for (auto &a : moves) {
 		ss << a << " ";
 	}
-	Log::getInstance().info("bridge", "Prijata prace obsahuje: " + ss.str());
 	LOG("bridge", "Prijata prace obsahuje: " + ss.str());
-
+#endif
 	game_.loadWork(moves);
 }
 
