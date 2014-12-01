@@ -348,3 +348,9 @@ bool Core::isWorkDone()
 	return waitingForWork_ == true && workThisSent_ == false && workLastSent_ == false;
 }
 
+
+int Core::getProcessor()
+{
+	return processor_;
+}
+

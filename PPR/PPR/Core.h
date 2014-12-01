@@ -39,6 +39,7 @@ public:
 
 	void run();
 	void finalize();
+	int getProcessor();
 
 	~Core();
 
